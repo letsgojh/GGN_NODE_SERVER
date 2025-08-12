@@ -1,5 +1,8 @@
-import pool from '../db.js';
-import dotenv from "dotenv"
+import * as dotenv from "dotenv"
+import {
+    getSeoulFloatingPopulation_param,
+    row
+} from "../service/convinient_store/types"
 dotenv.config()
 
 //api 1회 호출시 최대 1000건만 요청 가능 -> chunk 를 1000으로 지정
@@ -12,35 +15,39 @@ export async function getSeoulFloatingPopulation() : Promise<any>{
     let endIndex : number= 1000
     let cnt : number= 0;
     let url : string= `http://openapi.seoul.go.kr:8088/${process.env.AUTHENTICATION_KEY}/json/VwsmTrdarFlpopQq/${startIndex}/${endIndex}/20241`
-    let tmp : any= await fetch(url).then((response)=>{
-            return response.json()
-        })
+    //fetch에는 타입 명시 안해도된다.
+    //json 반환값은 기본적으로 unknown타입 -> 명시적 타입 단언이 필요하다(as)로
+    const response = await fetch(url);
+    const tmp = await response.json() as getSeoulFloatingPopulation_param
 
-    const totalCount : string= tmp.VwsmTrdarFlpopQq.list_total_count
-    const result = []
+    //const totalCount : number= tmp.VwsmTrdarFlpopQq.list_total_count
+    const result : row[]= []
 
 
     while(true){
         url = `http://openapi.seoul.go.kr:8088/${process.env.AUTHENTICATION_KEY}/json/VwsmTrdarFlpopQq/${startIndex}/${endIndex}/20241`
-        const res : any= await fetch(url).then((response)=>{
-            return response.json()
-        }).catch((error)=>{
+        let res : getSeoulFloatingPopulation_param | null = null;
+        try{
+            const response = await fetch(url)
+            res = await response.json() as getSeoulFloatingPopulation_param
+        }catch(error){
             console.error(`${startIndex} ~ ${endIndex} 에서 ${error}에러`)
-            return []
-        })
+            res = null;
+        }
 
-        if (!res || (res.RESULT && res.RESULT.CODE === 'INFO-200')) {
-            console.log(`데이터 없음 → 반복 종료 (Data Lenghth : ${totalCount})`);
+        if (!res ||!res.VwsmTrdarFlpopQq ||(res.VwsmTrdarFlpopQq.RESULT && res.VwsmTrdarFlpopQq.RESULT.CODE === 'INFO-200')) {
+            console.log(`데이터 없음 → 반복 종료 `);
             break;
         }
 
         
-        console.log(`${totalCount} 개 중에 ${cnt}개 완료`)
+        //console.log(`${totalCount} 개 중에 ${cnt}개 완료`)
         cnt++
 
         for(let tmp of res.VwsmTrdarFlpopQq.row){
             result.push(tmp)
         }
+
       
         startIndex+=1000
         endIndex+=1000
@@ -48,6 +55,7 @@ export async function getSeoulFloatingPopulation() : Promise<any>{
 
     console.log(`서울시 유동인구 api 사용`)
     console.log(`total Data Length of 서울특별시 유동인구: ${result.length}`)
+    console.dir(result,{depth : null})
     return result
 }
 /*
@@ -180,7 +188,7 @@ export async function getSeoulMarketCount_commercial(){
     console.log(`total Data Length of 서울시 점포 수(상권): ${result.length}`)
     return result
 }
-*/
+
 //서울특별시 점포 수(상권배후지)을 가져오는 메서드
 //동일 업종 점포수(경쟁 강도) 파악
 export async function getSeoulMarketCount_hinterland(){
@@ -206,7 +214,7 @@ export async function getSeoulMarketCount_hinterland(){
         })
 
         if (!res || (res.RESULT && res.RESULT.CODE === 'INFO-200')) {
-            console.log(`데이터 없음 → 반복 종료 (Data Lenghth : ${totalCount})`);
+            console.log(`데이터 없음 → 반복 종료`);
             break;
         }
 
@@ -311,9 +319,9 @@ export async function getSeoulEstimateIncome_hinterland(){
 }
 
 //서울시 부동산 전월세가 정보
-
+*/
 async function main(){
+    await getSeoulFloatingPopulation();
 }
 
 main()
-*/
