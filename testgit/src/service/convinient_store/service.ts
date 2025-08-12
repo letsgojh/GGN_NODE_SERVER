@@ -38,6 +38,7 @@ export async function getSeoulCommercialDistrict_By_Region(auto : string,admin :
         for(let tmp of res.TbgisTrdarRelm.row){
             if((tmp.SIGNGU_CD_NM === auto)&&(tmp.ADSTRD_CD_NM === admin))
                 result.push(tmp.TRDAR_CD_NM)
+                console.log(tmp.TRDAR_CD_NM)
             //자치구 코드 명은 SIGNGU_CD_NM, 행정동 코드명은 ADSTRD_CD_NM,상권이름은 TRDAR_CD_NM
         }
       
