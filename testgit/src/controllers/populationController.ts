@@ -7,21 +7,22 @@ dotenv.config()
 
 //서울특별시 유동인구수를 가져오는 메서드
 //잠재 고객 규모 파악에 사용
-export async function getSeoulFloatingPopulation(){
-    let startIndex = 1
-    let endIndex = 1000
-    let url = `http://openapi.seoul.go.kr:8088/${process.env.AUTHENTICATION_KEY}/json/VwsmTrdarFlpopQq/${startIndex}/${endIndex}/20241`
-    let tmp = await fetch(url).then((response)=>{
+export async function getSeoulFloatingPopulation() : Promise<any>{
+    let startIndex : number= 1
+    let endIndex : number= 1000
+    let cnt : number= 0;
+    let url : string= `http://openapi.seoul.go.kr:8088/${process.env.AUTHENTICATION_KEY}/json/VwsmTrdarFlpopQq/${startIndex}/${endIndex}/20241`
+    let tmp : any= await fetch(url).then((response)=>{
             return response.json()
         })
 
-    //const totalCount = tmp.VwsmTrdarFlpopQq.list_total_count
+    const totalCount : string= tmp.VwsmTrdarFlpopQq.list_total_count
     const result = []
 
 
     while(true){
         url = `http://openapi.seoul.go.kr:8088/${process.env.AUTHENTICATION_KEY}/json/VwsmTrdarFlpopQq/${startIndex}/${endIndex}/20241`
-        const res = await fetch(url).then((response)=>{
+        const res : any= await fetch(url).then((response)=>{
             return response.json()
         }).catch((error)=>{
             console.error(`${startIndex} ~ ${endIndex} 에서 ${error}에러`)
@@ -34,6 +35,9 @@ export async function getSeoulFloatingPopulation(){
         }
 
         
+        console.log(`${totalCount} 개 중에 ${cnt}개 완료`)
+        cnt++
+
         for(let tmp of res.VwsmTrdarFlpopQq.row){
             result.push(tmp)
         }
@@ -46,7 +50,7 @@ export async function getSeoulFloatingPopulation(){
     console.log(`total Data Length of 서울특별시 유동인구: ${result.length}`)
     return result
 }
-
+/*
 //서울특별시 직장인구(상권)을 가져오는 메서드
 //낮 시간대 소비층 규모 파악
 export async function getSeoulCompanyPopulation_commercial(){
@@ -86,6 +90,7 @@ export async function getSeoulCompanyPopulation_commercial(){
 
     console.log(`서울시 직장인구-상권 api 사용`)
     console.log(`total Data Length of 서울시 직장인구(상권): ${result.length}`)
+    console.dir(result,{depth : null})
     return result
 }
 
@@ -136,13 +141,14 @@ export async function getSeoulCompanyPopulation_hinterland(){
 export async function getSeoulMarketCount_commercial(){
     let startIndex = 1
     let endIndex = 1000
+    let cnt = 0;
     let url = `http://openapi.seoul.go.kr:8088/${process.env.AUTHENTICATION_KEY}/json/VwsmTrdarStorQq/${startIndex}/${endIndex}/20241`
 
     let tmp = await fetch(url).then((response)=>{
             return response.json()
         })
 
-    //const totalCount = tmp.VwsmTrdarFlpopQq.list_total_count
+    const totalCount = tmp.VwsmTrdarStorQq.list_total_count
     const result = []
 
 
@@ -156,12 +162,13 @@ export async function getSeoulMarketCount_commercial(){
         })
 
         if (!res || (res.RESULT && res.RESULT.CODE === 'INFO-200')) {
-            console.log(`데이터 없음 → 반복 종료 (Data Lenghth : ${totalCount})`);
+            console.log(`데이터 없음 → 반복 종료 `);
             break;
         }
 
-        
-        for(let tmp of res.VwsmTrdarFlpopQq.row){
+        console.log(`${totalCount} 개 중에 ${cnt}개 완료`)
+        cnt++
+        for(let tmp of res.VwsmTrdarStorQq.row){
             result.push(tmp)
         }
       
@@ -173,10 +180,9 @@ export async function getSeoulMarketCount_commercial(){
     console.log(`total Data Length of 서울시 점포 수(상권): ${result.length}`)
     return result
 }
-
+*/
 //서울특별시 점포 수(상권배후지)을 가져오는 메서드
 //동일 업종 점포수(경쟁 강도) 파악
-
 export async function getSeoulMarketCount_hinterland(){
     let startIndex = 1
     let endIndex = 1000
@@ -217,7 +223,7 @@ export async function getSeoulMarketCount_hinterland(){
     console.log(`total Data Length of 서울시 점포 수(상권배후지): ${result.length}`)
     return result
 }
-
+/*
 //서울특별시 추정매출(상권)을 가져오는 메서드
 //경쟁 대비 시장의 규모를 알려준다.
 export async function getSeoulEstimateIncome_commercial(){
@@ -310,3 +316,4 @@ async function main(){
 }
 
 main()
+*/
