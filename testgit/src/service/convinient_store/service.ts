@@ -1,8 +1,10 @@
 import dotenv from "dotenv"
 import {getSeoulFloatingPopulation,
-    getSeoulMarketCount_commercial
 } from "../../controllers/populationController.js"
-
+import {
+    getSeoulFloatingPopulation_param,
+    row
+} from "../../service/convinient_store/types"
 dotenv.config()
 
 
