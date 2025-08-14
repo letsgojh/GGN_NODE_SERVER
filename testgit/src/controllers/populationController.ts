@@ -1,3 +1,4 @@
+
 import dotenv from "dotenv"
 import { getSeoulFloatingPopulationParam,
     getSeoulMarketCount_Param,
@@ -5,6 +6,7 @@ import { getSeoulFloatingPopulationParam,
     getSeoulEstimateIncome_Param,
     getSeoulCommercialDistrict_Param
 } from '../service/convinient_store/types.js'
+
 dotenv.config()
 
 //api 1회 호출시 최대 1000건만 요청 가능 -> chunk 를 1000으로 지정
@@ -32,11 +34,11 @@ export async function getSeoulFloatingPopulation() : Promise<getSeoulFloatingPop
             return response.json()
         }).catch((error)=>{
             console.error(`${startIndex} ~ ${endIndex} 에서 ${error}에러`)
-            return []
-        })
+            res = null;
+        }
 
-        if (!res || (res.RESULT && res.RESULT.CODE === 'INFO-200')) {
-            console.log(`데이터 없음 → 반복 종료 (Data Lenghth : ${totalCount})`);
+        if (!res ||!res.VwsmTrdarFlpopQq ||(res.VwsmTrdarFlpopQq.RESULT && res.VwsmTrdarFlpopQq.RESULT.CODE === 'INFO-200')) {
+            console.log(`데이터 없음 → 반복 종료 `);
             break;
         }
 
@@ -46,6 +48,7 @@ export async function getSeoulFloatingPopulation() : Promise<getSeoulFloatingPop
         for(let tmp of res.VwsmTrdarFlpopQq.row){
             result.push(tmp)
         }
+
       
         startIndex+=1000
         endIndex+=1000
@@ -53,6 +56,7 @@ export async function getSeoulFloatingPopulation() : Promise<getSeoulFloatingPop
 
     console.log(`서울시 유동인구 api 사용`)
     console.log(`total Data Length of 서울특별시 유동인구: ${result.length}`)
+    console.dir(result,{depth : null})
     return result
 }
 
@@ -223,7 +227,7 @@ export async function getSeoulMarketCount_hinterland() : Promise<getSeoulMarketC
         })
 
         if (!res || (res.RESULT && res.RESULT.CODE === 'INFO-200')) {
-            console.log(`데이터 없음 → 반복 종료 (Data Lenghth : ${totalCount})`);
+            console.log(`데이터 없음 → 반복 종료`);
             break;
         }
 

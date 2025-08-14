@@ -10,6 +10,7 @@ import { getSeoulFloatingPopulationParam,
     getSeoulCommercialDistrict_Param,
     getAverageFloatingPopulation_by_region
 } from '../convinient_store/types.js'
+
 dotenv.config()
 
 
