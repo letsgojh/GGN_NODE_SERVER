@@ -56,12 +56,12 @@ export async function fetchSeoulApi<T>(
     const url =
       `${base}/${key}/json/${endpoint}/${startIndex}/${endIndex}` +
       `${yearPart}?_=${Date.now()}${JSON_PARAM}${extraParams}`;
-
+    
     const data = await retry(async () => {
       const res = await fetch(url, {
         headers: { Accept: "application/json,*/*" },
       });
-
+    
       // HTTP 상태 확인
       if (!res.ok) {
         const txt = await res.text();
@@ -77,14 +77,14 @@ export async function fetchSeoulApi<T>(
         // 여기서 Record<string, any>로 캐스팅 → 문자열 인덱싱 허용
         return (await res.json()) as Record<string, any>;
       }
-
+    
       // 그 외(대개 XML) → 텍스트로 읽고 의미있는 에러로 변환
       const txt = await res.text();
       const code = txt.match(/<CODE>([^<]+)<\/CODE>/i)?.[1] ?? "UNKNOWN";
       const msg  = txt.match(/<MESSAGE>([^<]+)<\/MESSAGE>/i)?.[1] ?? "Non-JSON response";
       throw new Error(`Non-JSON response. CODE=${code} MSG=${msg}`);
     });
-
+  
     // === API 표준 응답 구조 점검 ===
     const payload = data?.[rootKey] as Record<string, any> | undefined;
 
@@ -99,7 +99,7 @@ export async function fetchSeoulApi<T>(
       console.warn(`서버 RESULT.CODE=${resultCode}, MESSAGE=${msg} → 반복 종료`);
       break;
     }
-
+    
     const rows = (payload?.row ?? []) as T[];
     if (!Array.isArray(rows) || rows.length === 0) {
       console.log("행(row) 없음 → 반복 종료");

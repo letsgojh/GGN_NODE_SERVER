@@ -1,7 +1,7 @@
 /**
- * 서울시 상권 유동인구 API (VwsmTrdarFlpopQq) 의 데이터 구조를 정의하는 인터페이스
+ * 서울시 유동인구(상권, 상권배후지) API의 데이터 구조를 정의하는 인터페이스
  */
-export interface getSeoulFloatingPopulationParam{
+export interface getSeoulFloatingPopulation_Param{
 
     STDR_YYQU_CD: string;               // 기준_년분기_코드
     TRDAR_SE_CD: string;                // 상권_구분_코드
@@ -32,32 +32,8 @@ export interface getSeoulFloatingPopulationParam{
     SUN_FLPOP_CO: number;               // 일요일_유동인구_수
 }
 
-
 /**
- * 서울시 상권 점포 수 API (VwsmTrdarStorQq)
- * 서울시 상권배후지 점포 수 API (VwsmTrdhlStorQq) 의 데이터 구조를 정의하는 인터페이스
- */
-export interface getSeoulMarketCount_Param{
-    STDR_YYQU_CD: string;           // 기준_년분기_코드
-    TRDAR_SE_CD: string;            // 상권_구분_코드
-    TRDAR_SE_CD_NM: string;         // 상권_구분_코드_명
-    TRDAR_CD: string;               // 상권_코드
-    TRDAR_CD_NM: string;            // 상권_코드_명
-    SVC_INDUTY_CD: string;          // 서비스_업종_코드
-    SVC_INDUTY_CD_NM: string;       // 서비스_업종_코드_명
-    STOR_CO: number;                // 점포_수
-    SIMILR_INDUTY_STOR_CO: number;  // 유사_업종_점포_수
-    OPBIZ_RT: number;               // 개업_율
-    OPBIZ_STOR_CO: number;          // 개업_점포_수
-    CLSBIZ_RT: number;              // 폐업_률
-    CLSBIZ_STOR_CO: number;         // 폐업_점포_수
-    FRC_STOR_CO: number;            // 프랜차이즈_점포_수
-}
-
-
-/**
- * 서울시 상권 직장인구 API (VwsmTrdarWrcPopltnQq),
- * 서울시 상권배후지 직장인구 API (Vwsm_TrdhlWrcPopltnQq)의 데이터 구조를 정의하는 인터페이스
+ * 서울시 직장인구(상권, 상권배후지) API의 데이터 구조를 정의하는 인터페이스
  * 
  */
 export interface getSeoulCompanyPopulation_Param{
@@ -90,8 +66,62 @@ export interface getSeoulCompanyPopulation_Param{
 }
 
 /**
- * 서울시 상권 추정매출 API (VwsmTrdarSelngQq),
- * 서울시 상권배후지 추정매출 API (VwsmTrdhlSelngQq)의 데이터 구조를 정의하는 인터페이스
+ * 서울시 상주인구(상권, 상권배후지) API의 데이터 구조를 정의하는 인터페이스
+ */
+export interface getResidentPopulation_Param{
+    STDR_YYQU_CD: string;               //	기준_년분기_코드
+    TRDAR_SE_CD: string;                //	상권_구분_코드
+    TRDAR_SE_CD_NM: string;             //	상권_구분_코드_명
+    TRDAR_CD: string;                   //	상권_코드
+    TRDAR_CD_NM: string;                //	상권_코드_명
+    TOT_REPOP_CO: number;               //	총_상주인구_수
+    ML_REPOP_CO: number;                //	남성_상주인구_수
+    FML_REPOP_CO: number;               //	여성_상주인구_수
+    AGRDE_10_REPOP_CO: number;          //	연령대_10_상주인구_수
+    AGRDE_20_REPOP_CO: number;          //	연령대_20_상주인구_수
+    AGRDE_30_REPOP_CO: number;          //	연령대_30_상주인구_수
+    AGRDE_40_REPOP_CO: number;          //	연령대_40_상주인구_수
+    AGRDE_50_REPOP_CO: number;          //	연령대_50_상주인구_수
+    AGRDE_60_ABOVE_REPOP_CO: number;    //	연령대_60_이상_상주인구_수
+    MAG_10_REPOP_CO: number;            //	남성연령대_10_상주인구_수
+    MAG_20_REPOP_CO: number;            //	남성연령대_20_상주인구_수
+    MAG_30_REPOP_CO: number;            //	남성연령대_30_상주인구_수     
+    MAG_40_REPOP_CO: number;            //	남성연령대_40_상주인구_수   
+    MAG_50_REPOP_CO: number;            //	남성연령대_50_상주인구_수
+    MAG_60_ABOVE_REPOP_CO: number;      //	남성연령대_60_이상_상주인구_수    
+    FAG_10_REPOP_CO: number;            //	여성연령대_10_상주인구_수
+    FAG_20_REPOP_CO: number;            //	여성연령대_20_상주인구_수
+    FAG_30_REPOP_CO: number;            //	여성연령대_30_상주인구_수    
+    FAG_40_REPOP_CO: number;            //	여성연령대_40_상주인구_수   
+    FAG_50_REPOP_CO: number;            //	여성연령대_50_상주인구_수
+    FAG_60_ABOVE_REPOP_CO: number;      //	여성연령대_60_이상_상주인구_수
+    TOT_HSHLD_CO: number;               //	총_가구_수
+    APT_HSHLD_CO: number;               //	아파트_가구_수    
+    NON_APT_HSHLD_CO: number;           //	비_아파트_가구_수
+}
+
+/**
+ * 서울시 점포 수(상권, 상권배후지) API의 데이터 구조를 정의하는 인터페이스
+ */
+export interface getSeoulMarketCount_Param{
+    STDR_YYQU_CD: string;           // 기준_년분기_코드
+    TRDAR_SE_CD: string;            // 상권_구분_코드
+    TRDAR_SE_CD_NM: string;         // 상권_구분_코드_명
+    TRDAR_CD: string;               // 상권_코드
+    TRDAR_CD_NM: string;            // 상권_코드_명
+    SVC_INDUTY_CD: string;          // 서비스_업종_코드
+    SVC_INDUTY_CD_NM: string;       // 서비스_업종_코드_명
+    STOR_CO: number;                // 점포_수
+    SIMILR_INDUTY_STOR_CO: number;  // 유사_업종_점포_수
+    OPBIZ_RT: number;               // 개업_율
+    OPBIZ_STOR_CO: number;          // 개업_점포_수
+    CLSBIZ_RT: number;              // 폐업_률
+    CLSBIZ_STOR_CO: number;         // 폐업_점포_수
+    FRC_STOR_CO: number;            // 프랜차이즈_점포_수
+}
+
+/**
+ * 서울시 추정매출(상권, 상권배후지) API의 데이터 구조를 정의하는 인터페이스
  */
 export interface getSeoulEstimateIncome_Param{
     STDR_YYQU_CD: string;               // 기준_년분기_코드
@@ -152,7 +182,10 @@ export interface getSeoulEstimateIncome_Param{
     
 }
 
-export interface getSeoulStorePrice_Param {
+/**
+ * 서울시 임대료 API 정보의 데이터구조를 정의하는 인터페이스
+ */
+export interface ggetSeoulStorePrice_Param {
     RCPT_YR: string;                     // 접수연도
 	CGG_CD: string;                      //	자치구코드
 	CGG_NM: string;                      // 자치구명
@@ -177,3 +210,36 @@ export interface getSeoulStorePrice_Param {
 	BFR_GRFE:  string;                   // 종전 보증금
 	BFR_RTFE:  string;                   // 종전 임대료
 }
+
+/**
+ * 서울시 영역 (상권) API 정보의 데이터구조를 정의하는 인터페이스
+ */
+export interface getSeoulCommercialDistrict_commercial_Param{
+    TRDAR_SE_CD: string;	             // 상권_구분_코드
+	TRDAR_SE_CD_NM: string;	             // 상권_구분_코드_명
+	TRDAR_CD: string;	                 // 상권_코드
+	TRDAR_CD_NM: string;	             // 상권_코드_명
+	XCNTS_VALUE: string;	             // 엑스좌표_값
+	YDNTS_VALUE: string;	             // 와이좌표_값
+	SIGNGU_CD: string;	                 // 자치구_코드
+	SIGNGU_CD_NM: string;	             // 자치구_코드_명
+	ADSTRD_CD: string;	                 // 행정동_코드
+	ADSTRD_CD_NM: string;	             // 행정동_코드_명
+	RELM_AR: string;	                 // 영역_면적
+}
+
+/**
+ * 서울시 영역 (상권배후지) API 정보의 데이터구조를 정의하는 인터페이스
+ */
+export interface getSeoulCommercialDistrict_hinterland_Param{
+    ALLEY_TRDAR_CD: string;	             // 상권배후지_구분_코드
+	ALLEY_TRDAR_NM: string;	             // 상권배후지_구분_코드_명
+	XCNTS_VALUE: number;	             // 엑스좌표_값
+	YDNTS_VALUE: number;	             // 와이좌표_값
+	SIGNGU_CD: string;	                 // 자치구_코드
+	SIGNGU_CD_NM: string;	             // 자치구_코드_명
+	ADSTRD_CD: string;	                 // 행정동_코드
+	ADSTRD_CD_NM: string;	             // 행정동_코드_명
+    RELM_AR: number;	                 // 영역_면적 
+}
+

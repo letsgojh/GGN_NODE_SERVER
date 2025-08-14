@@ -4,11 +4,16 @@ import fs from "fs";
 import path from "path";
 import { fetchSeoulApi } from "../utils/fetchSeoulApi.ts";
 import {
-  getSeoulFloatingPopulationParam,
-    getSeoulMarketCount_Param,
-    getSeoulCompanyPopulation_Param,
-    getSeoulEstimateIncome_Param,
-    getSeoulStorePrice_Param
+  getSeoulFloatingPopulation_Param,
+  getSeoulCompanyPopulation_Param,
+  getResidentPopulation_Param,
+
+  getSeoulMarketCount_Param,
+  getSeoulEstimateIncome_Param,
+  getSeoulStorePrice_Param,
+
+  getSeoulCommercialDistrict_commercial_Param,
+  getSeoulCommercialDistrict_hinterland_Param
 } from "../service/convenient_store/types.ts"
 
 const __dirnameSafe = typeof __dirname !== "undefined"
@@ -24,8 +29,8 @@ console.log("[dotenv] AUTHENTICATION_KEY =", process.env.AUTHENTICATION_KEY);
 // ---------------------------------------------
 // 1. 유동인구 (상권)
 // ---------------------------------------------
-export async function getSeoulFloatingPopulation(): Promise<getSeoulFloatingPopulationParam[]> {
-  const data = await fetchSeoulApi<getSeoulFloatingPopulationParam>(
+export async function getSeoulFloatingPopulation_commercial(): Promise<getSeoulFloatingPopulation_Param[]> {
+  const data = await fetchSeoulApi<getSeoulFloatingPopulation_Param>(
     "VwsmTrdarFlpopQq",
     "VwsmTrdarFlpopQq",
     "20241"
@@ -35,7 +40,21 @@ export async function getSeoulFloatingPopulation(): Promise<getSeoulFloatingPopu
 }
 
 // ---------------------------------------------
-// 2. 직장인구 (상권)
+// 2. 유동인구 (상권배후지)
+// ---------------------------------------------
+
+export async function getSeoulFloatingPopulation_hinterland(): Promise<getSeoulFloatingPopulation_Param[]> {
+  const data = await fetchSeoulApi<getSeoulFloatingPopulation_Param>(
+    "VwsmTrdhlFlpopQq",
+    "VwsmTrdhlFlpopQq",
+    "20241"
+  );
+  console.log("서울시 유동인구 (상권배후지):", data.length);
+  return data;
+}
+
+// ---------------------------------------------
+// 3. 직장인구 (상권)
 // ---------------------------------------------
 export async function getSeoulCompanyPopulation_commercial(): Promise<getSeoulCompanyPopulation_Param[]> {
   const data = await fetchSeoulApi<getSeoulCompanyPopulation_Param>(
@@ -47,7 +66,7 @@ export async function getSeoulCompanyPopulation_commercial(): Promise<getSeoulCo
 }
 
 // ---------------------------------------------
-// 3. 직장인구 (상권배후지)
+// 4. 직장인구 (상권배후지)
 // ---------------------------------------------
 export async function getSeoulCompanyPopulation_hinterland(): Promise<getSeoulCompanyPopulation_Param[]> {
   const data = await fetchSeoulApi<getSeoulCompanyPopulation_Param>(
@@ -59,7 +78,31 @@ export async function getSeoulCompanyPopulation_hinterland(): Promise<getSeoulCo
 }
 
 // ---------------------------------------------
-// 4. 점포 수 (상권)
+// 5. 상주인구 (상권)
+// ---------------------------------------------
+export async function getResidentPopulation_commercial(): Promise<getResidentPopulation_Param[]> {
+  const data = await fetchSeoulApi<getResidentPopulation_Param>(
+    "VwsmTrdarRepopQq",
+    "VwsmTrdarRepopQq"
+  );
+  console.log("서울시 상주인구 (상권):", data.length);
+  return data;
+}
+
+// ---------------------------------------------
+// 6. 상주인구 (상권배후지)
+// ---------------------------------------------
+export async function getResidentPopulation_hinterland(): Promise<getResidentPopulation_Param[]> {
+  const data = await fetchSeoulApi<getResidentPopulation_Param>(
+    "VwsmTrdhlRepopQq",
+    "VwsmTrdhlRepopQq"
+  );
+  console.log("서울시 상주인구 (상권):", data.length);
+  return data;
+}
+
+// ---------------------------------------------
+// 7. 점포 수 (상권)
 // ---------------------------------------------
 export async function getSeoulMarketCount_commercial(): Promise<getSeoulMarketCount_Param[]> {
   const data = await fetchSeoulApi<getSeoulMarketCount_Param>(
@@ -72,7 +115,7 @@ export async function getSeoulMarketCount_commercial(): Promise<getSeoulMarketCo
 }
 
 // ---------------------------------------------
-// 5. 점포 수 (상권배후지)
+// 8. 점포 수 (상권배후지)
 // ---------------------------------------------
 export async function getSeoulMarketCount_hinterland(): Promise<getSeoulMarketCount_Param[]> {
   const data = await fetchSeoulApi<getSeoulMarketCount_Param>(
@@ -84,7 +127,7 @@ export async function getSeoulMarketCount_hinterland(): Promise<getSeoulMarketCo
 }
 
 // ---------------------------------------------
-// 6. 추정 매출 (상권)
+// 9. 추정 매출 (상권)
 // ---------------------------------------------
 export async function getSeoulEstimateIncome_commercial(): Promise<getSeoulEstimateIncome_Param[]> {
   const data = await fetchSeoulApi<getSeoulEstimateIncome_Param>(
@@ -96,7 +139,7 @@ export async function getSeoulEstimateIncome_commercial(): Promise<getSeoulEstim
 }
 
 // ---------------------------------------------
-// 7. 추정 매출 (상권배후지)
+// 10. 추정 매출 (상권배후지)
 // ---------------------------------------------
 export async function getSeoulEstimateIncome_hinterland(): Promise<getSeoulEstimateIncome_Param[]> {
   const data = await fetchSeoulApi<getSeoulEstimateIncome_Param>(
@@ -107,9 +150,8 @@ export async function getSeoulEstimateIncome_hinterland(): Promise<getSeoulEstim
   return data;
 }
 
-
 // ---------------------------------------------
-// 8. 서울시 부동산 전월세가 정보
+// 11. 서울시 부동산 전월세가 정보 (암대료)
 // ---------------------------------------------
 
 export async function getSeoulStorePrice(): Promise<getSeoulStorePrice_Param[]> {
@@ -122,22 +164,54 @@ export async function getSeoulStorePrice(): Promise<getSeoulStorePrice_Param[]> 
 }
 
 // ---------------------------------------------
-// 9. 서울시 영역(상권) 이건 재환이가 했음
+// 12. 서울시 영역(상권) 
 // ---------------------------------------------
 
+export async function getSeoulCommercialDistrict_commercial(): Promise<getSeoulCommercialDistrict_commercial_Param[]> {
+  const data = await fetchSeoulApi<getSeoulCommercialDistrict_commercial_Param>(
+    "TbgisTrdarRelm",
+    "TbgisTrdarRelm"
+  );
+  console.log("서울시 영역 (상권):", data.length);
+  return data;
+}
+
+// ---------------------------------------------
+// 13. 서울시 영역(상권) 
+// ---------------------------------------------
+
+export async function getSeoulCommercialDistrict_hinterland(): Promise<getSeoulCommercialDistrict_hinterland_Param[]> {
+  const data = await fetchSeoulApi<getSeoulCommercialDistrict_hinterland_Param>(
+    "TbgisTrdhlRelmW",
+    "TbgisTrdhlRelmW"
+  );
+  console.log("서울시 영역 (상권배후지):", data.length);
+  return data;
+}
 
 // ---------------------------------------------
 // 테스트 실행용
 // ---------------------------------------------
 async function main() {
   console.log("📦 테스트 실행 시작...");
-  await getSeoulFloatingPopulation();
+  await getSeoulFloatingPopulation_commercial();
+  await getSeoulFloatingPopulation_hinterland();
+
   await getSeoulCompanyPopulation_commercial();
   await getSeoulCompanyPopulation_hinterland();
+
+  await getResidentPopulation_commercial();
+  await getResidentPopulation_hinterland();
+
   await getSeoulMarketCount_commercial();
   await getSeoulMarketCount_hinterland();
+
   await getSeoulEstimateIncome_commercial();
   await getSeoulEstimateIncome_hinterland();
+
   await getSeoulStorePrice();
+
+  await getSeoulCommercialDistrict_commercial();
+  await getSeoulCommercialDistrict_hinterland();
 }
 main();

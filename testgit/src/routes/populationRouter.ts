@@ -1,12 +1,23 @@
 import express, { Router, Request, Response } from 'express';
 import {
-  getSeoulFloatingPopulation,
+  getSeoulFloatingPopulation_commercial,
+  getSeoulFloatingPopulation_hinterland,
+
   getSeoulCompanyPopulation_commercial,
   getSeoulCompanyPopulation_hinterland,
+
+  getSeoulLivingPopulation_commercial,
+  getSeoulLivingPopulation_hinterland,
+
   getSeoulMarketCount_commercial,
   getSeoulMarketCount_hinterland,
+
   getSeoulEstimateIncome_commercial,
-  getSeoulEstimateIncome_hinterland
+  getSeoulEstimateIncome_hinterland,
+
+  getSeoulStorePrice,
+  
+  getSeoulArea
 } from '../controllers/populationController.js';
 
 const router: Router = express.Router();
