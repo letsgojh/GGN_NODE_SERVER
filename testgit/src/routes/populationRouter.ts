@@ -17,7 +17,6 @@ import {
 
   getSeoulStorePrice,
   
-  getSeoulArea
 } from '../controllers/populationController.js';
 
 const router: Router = express.Router();
@@ -40,7 +39,7 @@ async function handleRequest(fn: () => Promise<any>, res: Response) {
  *     summary: 서울시 유동인구(상권)
  */
 router.get('/floating', (req: Request, res: Response) =>
-  handleRequest(getSeoulFloatingPopulation, res)
+  handleRequest(getSeoulFloatingPopulation_commercial, res)
 );
 
 /**

@@ -1,6 +1,7 @@
 //pnpm add -D @types/node
 import * as dotenv from "dotenv";
 
+
 import fs from "fs";
 import path from "path";
 import { fetchSeoulApi } from "../utils/fetchSeoulApi.ts";
@@ -203,7 +204,6 @@ async function main() {
   console.log("📦 테스트 실행 시작...");
   await getSeoulFloatingPopulation_commercial();
   await getSeoulFloatingPopulation_hinterland();
-
   await getSeoulCompanyPopulation_commercial();
   await getSeoulCompanyPopulation_hinterland();
 
