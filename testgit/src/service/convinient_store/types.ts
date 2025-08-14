@@ -1,3 +1,175 @@
+
+/**
+ * 서울시 상권 유동인구 API (VwsmTrdarFlpopQq) 의 데이터 구조를 정의하는 인터페이스
+ */
+export interface getSeoulFloatingPopulationParam{
+
+    STDR_YYQU_CD: string;               // 기준_년분기_코드
+    TRDAR_SE_CD: string;                // 상권_구분_코드
+    TRDAR_SE_CD_NM: string;             // 상권_구분_코드_명
+    TRDAR_CD: string;                   // 상권_코드
+    TRDAR_CD_NM: string;                // 상권_코드_명
+    TOT_FLPOP_CO: number;               // 총_유동인구_수
+    ML_FLPOP_CO: number;                // 남성_유동인구_수
+    FML_FLPOP_CO: number;               // 여성_유동인구_수
+    AGRDE_10_FLPOP_CO: number;          // 연령대_10_유동인구_수
+    AGRDE_20_FLPOP_CO: number;          // 연령대_20_유동인구_수
+    AGRDE_30_FLPOP_CO: number;          // 연령대_30_유동인구_수
+    AGRDE_40_FLPOP_CO: number;          // 연령대_40_유동인구_수
+    AGRDE_50_FLPOP_CO: number;          // 연령대_50_유동인구_수
+    AGRDE_60_ABOVE_FLPOP_CO: number;    // 연령대_60_이상_유동인구_수
+    TMZON_00_06_FLPOP_CO: number;       // 시간대_00_06_유동인구_수
+    TMZON_06_11_FLPOP_CO: number;       // 시간대_06_11_유동인구_수
+    TMZON_11_14_FLPOP_CO: number;       // 시간대_11_14_유동인구_수
+    TMZON_14_17_FLPOP_CO: number;       // 시간대_14_17_유동인구_수
+    TMZON_17_21_FLPOP_CO: number;       // 시간대_17_21_유동인구_수
+    TMZON_21_24_FLPOP_CO: number;       // 시간대_21_24_유동인구_수
+    MON_FLPOP_CO: number;               // 월요일_유동인구_수
+    TUES_FLPOP_CO: number;              // 화요일_유동인구_수
+    WED_FLPOP_CO: number;               // 수요일_유동인구_수
+    THUR_FLPOP_CO: number;              // 목요일_유동인구_수
+    FRI_FLPOP_CO: number;               // 금요일_유동인구_수
+    SAT_FLPOP_CO: number;               // 토요일_유동인구_수
+    SUN_FLPOP_CO: number;               // 일요일_유동인구_수
+}
+
+
+/**
+ * 서울시 상권 점포 수 API (VwsmTrdarStorQq)
+ * 서울시 상권배후지 점포 수 API (VwsmTrdhlStorQq) 의 데이터 구조를 정의하는 인터페이스
+ */
+export interface getSeoulMarketCount_Param{
+    STDR_YYQU_CD: string;           // 기준_년분기_코드
+    TRDAR_SE_CD: string;            // 상권_구분_코드
+    TRDAR_SE_CD_NM: string;         // 상권_구분_코드_명
+    TRDAR_CD: string;               // 상권_코드
+    TRDAR_CD_NM: string;            // 상권_코드_명
+    SVC_INDUTY_CD: string;          // 서비스_업종_코드
+    SVC_INDUTY_CD_NM: string;       // 서비스_업종_코드_명
+    STOR_CO: number;                // 점포_수
+    SIMILR_INDUTY_STOR_CO: number;  // 유사_업종_점포_수
+    OPBIZ_RT: number;               // 개업_율
+    OPBIZ_STOR_CO: number;          // 개업_점포_수
+    CLSBIZ_RT: number;              // 폐업_률
+    CLSBIZ_STOR_CO: number;         // 폐업_점포_수
+    FRC_STOR_CO: number;            // 프랜차이즈_점포_수
+}
+
+
+/**
+ * 서울시 상권 직장인구 API (VwsmTrdarWrcPopltnQq),
+ * 서울시 상권배후지 직장인구 API (Vwsm_TrdhlWrcPopltnQq)의 데이터 구조를 정의하는 인터페이스
+ * 
+ */
+export interface getSeoulCompanyPopulation_Param{
+    STDR_YYQU_CD: string;                   // 기준_년분기_코드
+    TRDAR_SE_CD: string;                    // 상권_구분_코드
+    TRDAR_SE_CD_NM: string;                 // 상권_구분_코드_명
+    TRDAR_CD: string;                       // 상권_코드
+    TRDAR_CD_NM: string;                    // 상권_코드_명
+    TOT_WRC_POPLTN_CO: number;              // 총_직장_인구_수
+    ML_WRC_POPLTN_CO: number;               // 남성_직장_인구_수
+    FML_WRC_POPLTN_CO: number;              // 여성_직장_인구_수
+    AGRDE_10_WRC_POPLTN_CO: number;         // 연령대_10_직장_인구_수
+    AGRDE_20_WRC_POPLTN_CO: number;         // 연령대_20_직장_인구_수
+    AGRDE_30_WRC_POPLTN_CO: number;         // 연령대_30_직장_인구_수
+    AGRDE_40_WRC_POPLTN_CO: number;         // 연령대_40_직장_인구_수
+    AGRDE_50_WRC_POPLTN_CO: number;         // 연령대_50_직장_인구_수
+    AGRDE_60_ABOVE_WRC_POPLTN_CO: number;   // 연령대_60_이상_직장_인구_수
+    MAG_10_WRC_POPLTN_CO: number;           // 남성연령대_10_직장_인구_수
+    MAG_20_WRC_POPLTN_CO: number;           // 남성연령대_20_직장_인구_수
+    MAG_30_WRC_POPLTN_CO: number;           // 남성연령대_30_직장_인구_수
+    MAG_40_WRC_POPLTN_CO: number;           // 남성연령대_40_직장_인구_수
+    MAG_50_WRC_POPLTN_CO: number;           // 남성연령대_50_직장_인구_수
+    MAG_60_ABOVE_WRC_POPLTN_CO: number;     // 남성연령대_60_이상_직장_인구_수
+    FAG_10_WRC_POPLTN_CO: number;           // 여성연령대_10_직장_인구_수
+    FAG_20_WRC_POPLTN_CO: number;           // 여성연령대_20_직장_인구_수
+    FAG_30_WRC_POPLTN_CO: number;           // 여성연령대_30_직장_인구_수
+    FAG_40_WRC_POPLTN_CO: number;           // 여성연령대_40_직장_인구_수
+    FAG_50_WRC_POPLTN_CO: number;           // 여성연령대_50_직장_인구_수
+    FAG_60_ABOVE_WRC_POPLTN_CO: number;     // 여성연령대_60_이상_직장_인구_수
+}
+
+/**
+ * 서울시 상권 추정매출 API (VwsmTrdarSelngQq),
+ * 서울시 상권배후지 추정매출 API (VwsmTrdhlSelngQq)의 데이터 구조를 정의하는 인터페이스
+ */
+export interface getSeoulEstimateIncome_Param{
+    STDR_YYQU_CD: string;               // 기준_년분기_코드
+    TRDAR_SE_CD: string;                // 상권_구분_코드
+    TRDAR_SE_CD_NM: string;             // 상권_구분_코드_명
+    TRDAR_CD: string;                   // 상권_코드
+    TRDAR_CD_NM: string;                // 상권_코드_명
+    SVC_INDUTY_CD: string;              // 서비스_업종_코드
+    SVC_INDUTY_CD_NM: string;           // 서비스_업종_코드_명
+    THSMON_SELNG_AMT: number;           // 당월_매출_금액
+    THSMON_SELNG_CO: number;            // 당월_매출_건수
+    MDWK_SELNG_AMT: number;             // 주중_매출_금액
+    WKEND_SELNG_AMT: number;            // 주말_매출_금액
+    MON_SELNG_AMT: number;              // 월요일_매출_금액
+    TUES_SELNG_AMT: number;             // 화요일_매출_금액
+    WED_SELNG_AMT: number;              // 수요일_매출_금액
+    THUR_SELNG_AMT: number;             // 목요일_매출_금액
+    FRI_SELNG_AMT: number;              // 금요일_매출_금액
+    SAT_SELNG_AMT: number;              // 토요일_매출_금액
+    SUN_SELNG_AMT: number;              // 일요일_매출_금액
+    TMZON_00_06_SELNG_AMT: number;      // 시간대_00~06_매출_금액
+    TMZON_06_11_SELNG_AMT: number;      // 시간대_06~11_매출_금액
+    TMZON_11_14_SELNG_AMT: number;      // 시간대_11~14_매출_금액
+    TMZON_14_17_SELNG_AMT: number;      // 시간대_14~17_매출_금액
+    TMZON_17_21_SELNG_AMT: number;      // 시간대_17~21_매출_금액
+    TMZON_21_24_SELNG_AMT: number;      // 시간대_21~24_매출_금액
+    ML_SELNG_AMT: number;               // 남성_매출_금액
+    FML_SELNG_AMT: number;              // 여성_매출_금액
+    AGRDE_10_SELNG_AMT: number;         // 연령대_10_매출_금액
+    AGRDE_20_SELNG_AMT: number;         // 연령대_20_매출_금액
+    AGRDE_30_SELNG_AMT: number;         // 연령대_30_매출_금액
+    AGRDE_40_SELNG_AMT: number;         // 연령대_40_매출_금액
+    AGRDE_50_SELNG_AMT: number;         // 연령대_50_매출_금액
+    AGRDE_60_ABOVE_SELNG_AMT: number;   // 연령대_60_이상_매출_금액
+    MDWK_SELNG_CO: number;              // 주중_매출_건수
+    WKEND_SELNG_CO: number;             // 주말_매출_건수
+    MON_SELNG_CO: number;               // 월요일_매출_건수
+    TUES_SELNG_CO: number;              // 화요일_매출_건수
+    WED_SELNG_CO: number;               // 수요일_매출_건수
+    THUR_SELNG_CO: number;              // 목요일_매출_건수
+    FRI_SELNG_CO: number;               // 금요일_매출_건수
+    SAT_SELNG_CO: number;               // 토요일_매출_건수
+    SUN_SELNG_CO: number;               // 일요일_매출_건수
+    TMZON_00_06_SELNG_CO: number;       // 시간대_00~06_매출_건수
+    TMZON_06_11_SELNG_CO: number;       // 시간대_06~11_매출_건수
+    TMZON_11_14_SELNG_CO: number;       // 시간대_11~14_매출_건수
+    TMZON_14_17_SELNG_CO: number;       // 시간대_14~17_매출_건수
+    TMZON_17_21_SELNG_CO: number;       // 시간대_17~21_매출_건수
+    TMZON_21_24_SELNG_CO: number;       // 시간대_21~24_매출_건수
+    ML_SELNG_CO: number;                // 남성_매출_건수
+    FML_SELNG_CO: number;               // 여성_매출_건수
+    AGRDE_10_SELNG_CO: number;          // 연령대_10_매출_건수
+    AGRDE_20_SELNG_CO: number;          // 연령대_20_매출_건수
+    AGRDE_30_SELNG_CO: number;          // 연령대_30_매출_건수
+    AGRDE_40_SELNG_CO: number;          // 연령대_40_매출_건수
+    AGRDE_50_SELNG_CO: number;          // 연령대_50_매출_건수
+    AGRDE_60_ABOVE_SELNG_CO: number;    // 연령대_60_이상_매출_건수
+}
+
+export interface getSeoulCommercialDistrict_Param{
+    TRDAR_SE_CD : string;
+    TRDAR_SE_CD_NM : string;
+    TRDAR_CD : number;
+    TRDAR_CD_NM: string;
+    XCNTS_VALUE: number;
+    YDNTS_VALUE: number;
+    SIGNGU_CD: number;
+    SIGNGU_CD_NM: string;
+    ADSTRD_CD:number;
+    ADSTRD_CD_NM:string;
+    RELM_AR:number;
+}
+
+export interface getAverageFloatingPopulation_by_region{
+    AVERAGE_FLOTING_POPULATION : number;
+    AVERAGE_FLOTING_POPULATION_21_24 : number;
+    AVERAGE_FLOTING_POPULATION_00_06 : number;
 //유동인구 interface 1
 export interface getSeoulFloatingPopulation_param{
     VwsmTrdarFlpopQq : {
