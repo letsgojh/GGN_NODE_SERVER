@@ -6,8 +6,8 @@ import {
   getSeoulCompanyPopulation_commercial,
   getSeoulCompanyPopulation_hinterland,
 
-  getSeoulLivingPopulation_commercial,
-  getSeoulLivingPopulation_hinterland,
+  getResidentPopulation_commercial,
+  getResidentPopulation_hinterland,
 
   getSeoulMarketCount_commercial,
   getSeoulMarketCount_hinterland,

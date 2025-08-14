@@ -185,7 +185,7 @@ export interface getSeoulEstimateIncome_Param{
 /**
  * 서울시 임대료 API 정보의 데이터구조를 정의하는 인터페이스
  */
-export interface ggetSeoulStorePrice_Param {
+export interface getSeoulStorePrice_Param {
     RCPT_YR: string;                     // 접수연도
 	CGG_CD: string;                      //	자치구코드
 	CGG_NM: string;                      // 자치구명

@@ -1,5 +1,6 @@
 //pnpm add -D @types/node
 import * as dotenv from "dotenv";
+
 import fs from "fs";
 import path from "path";
 import { fetchSeoulApi } from "../utils/fetchSeoulApi.ts";
@@ -15,17 +16,23 @@ import {
   getSeoulCommercialDistrict_commercial_Param,
   getSeoulCommercialDistrict_hinterland_Param
 } from "../service/convenient_store/types.ts"
-
+import { fileURLToPath } from "url";
 const __dirnameSafe = typeof __dirname !== "undefined"
   ? __dirname
   : path.dirname(new URL(import.meta.url).pathname);
-const ENV_PATH = path.resolve(__dirnameSafe, "../../../../server/.env");
-dotenv.config({ path: ENV_PATH, override: true });
 
-// 디버그 출력
-console.log("[dotenv] path =", ENV_PATH, "exists?", fs.existsSync(ENV_PATH));
+  // 후보 경로들(프로젝트 구조에 맞게 위에서부터 탐색)
+const candidates = [
+  path.resolve(__dirnameSafe, "../../.env"),              // 루트/.env (controllers 기준)
+  path.resolve(__dirnameSafe, "../../../../server/.env"), // server/.env 구조를 쓴다면
+  path.resolve(process.cwd(), ".env"),                    // 현재 작업 디렉토리/.env
+];
+const ENV_PATH = candidates.find(p => fs.existsSync(p));
+dotenv.config(ENV_PATH ? { path: ENV_PATH, override: true } : {});dotenv.config({ path: ENV_PATH, override: true });
+
+// 디버그
+console.log("[dotenv] path =", ENV_PATH, "exists?", !!ENV_PATH);
 console.log("[dotenv] AUTHENTICATION_KEY =", process.env.AUTHENTICATION_KEY);
-
 // ---------------------------------------------
 // 1. 유동인구 (상권)
 // ---------------------------------------------
