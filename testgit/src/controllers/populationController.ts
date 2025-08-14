@@ -1,9 +1,9 @@
-import pool from '../db.js';
 import dotenv from "dotenv"
 import { getSeoulFloatingPopulationParam,
     getSeoulMarketCount_Param,
     getSeoulCompanyPopulation_Param,
-    getSeoulEstimateIncome_Param
+    getSeoulEstimateIncome_Param,
+    getSeoulCommercialDistrict_Param
 } from '../service/convinient_store/types.js'
 dotenv.config()
 
@@ -338,14 +338,60 @@ export async function getSeoulEstimateIncome_hinterland() : Promise<getSeoulEsti
     return result
 }
 
+//서울특별시 영역에 따른 상권을 가져오는 메서드
+//특정영역에 존재하는 상권 반환
+export async function getSeoulCommercialDistrict() : Promise<getSeoulCommercialDistrict_Param[]>{ //auto는 자치구이름,admin은 행정동이름
+    let startIndex : number = 1
+    let endIndex : number = 1000
+    let url : string = `http://openapi.seoul.go.kr:8088/${process.env.AREA_COMMERCIAL_API_KEY}/json/TbgisTrdarRelm/${startIndex}/${endIndex}/`
+    //http://openapi.seoul.go.kr:8088/4e587a724f646b6636376966764175/json/TbgisTrdarRelm/1/1/
+    let tmp = await fetch(url).then((response)=>{
+            return response.json()
+        })
+
+    const totalCount = tmp.TbgisTrdarRelm.list_total_count
+    const result : getSeoulCommercialDistrict_Param[] = []
+
+
+    while(true){
+        url = `http://openapi.seoul.go.kr:8088/${process.env.AREA_COMMERCIAL_API_KEY}/json/TbgisTrdarRelm/${startIndex}/${endIndex}/`
+        const res = await fetch(url).then((response)=>{
+            return response.json()
+        }).catch((error)=>{
+            console.error(`${startIndex} ~ ${endIndex} 에서 ${error}에러`)
+            return []
+        })
+
+        if (!res || (res.RESULT && res.RESULT.CODE === 'INFO-200')) {
+            console.log(`데이터 없음 → 반복 종료`);
+            break;
+        }
+
+        for(let tmp of res.TbgisTrdarRelm.row){
+            result.push(tmp)
+        }
+      
+        startIndex+=1000
+        endIndex+=1000
+    }
+
+    console.dir(result,{depth : null})
+    console.log(`서울시 영역 api 사용`)
+    console.log(`total Data Length of 서울특별시 영역: ${result.length}`)
+    return result
+}
+
 //서울시 부동산 전월세가 정보
 
 
 //아래 main으로 populationController.ts 만 실행 가능 : testgit> 에서 tsx src/controllers/populationController.ts
+/*
 async function main() {
     console.log("테스트 실행 시작...");
-    try {
-        /*// 1. 유동인구 데이터 가져오기
+    try {*/
+        
+        /*
+        // 1. 유동인구 데이터 가져오기
         console.log("\n[1] 서울시 유동인구 데이터를 가져옵니다...");
         const populationData = await getSeoulFloatingPopulation();
 
@@ -359,7 +405,8 @@ async function main() {
         }
 
         console.log("\n------------------------------------------------------\n");
-
+        
+        
         
         // 2. 점포 수 데이터 가져오기
         console.log("[2] 서울시 상권 점포 수 데이터를 가져옵니다...");
@@ -373,7 +420,9 @@ async function main() {
         } else {
             console.log("-> 가져온 점포 수 데이터가 없습니다.");
         }
+        
 
+        
         // 3. 직장인구(상권) 데이터 가져오기
         console.log("[3] 서울시 직장인구(상권) 데이터를 가져옵니다...");
         const companyPopulationCommercialData = await getSeoulCompanyPopulation_commercial();
@@ -386,7 +435,9 @@ async function main() {
         } else {
             console.log("-> 가져온 직장인구(상권) 데이터가 없습니다.");
         }
+          
 
+        
         // 4. 직장인구(상권배후지) 데이터 가져오기
         console.log("[4] 서울시 직장인구(상권배후지) 데이터를 가져옵니다... ")
         const companyPopulationHinterlandData = await getSeoulCompanyPopulation_hinterland();
@@ -398,6 +449,10 @@ async function main() {
         } else {
             console.log("-> 가져온 직장인구(상권배후지) 데이터가 없습니다")
         }
+
+        
+
+        
 
         // 5. 점포(상권배후지) 데이터 가져오기 이거 년분기코드로 데이터를 적게 가지고 올 수 없음;;
         console.log("[5] 서울시 점포(상권배후지) 데이터를 가져옵니다... ")
@@ -411,6 +466,9 @@ async function main() {
             console.log("-> 가져온 점포 수(상권배후지) 데이터가 없습니다")
         }
 
+        
+
+        
         // 6.추정매출(상권) 데이터 가져오기
         console.log("[6] 서울시 추정매출(상권) 데이터를 가져옵니다... ")
         const estimateIncomeCommercialData = await getSeoulEstimateIncome_commercial();
@@ -421,8 +479,11 @@ async function main() {
             console.log(`\n총 ${estimateIncomeCommercialData.length}개의 추정매출(상권) 데이터를 성공적으로 가져왔습니다`)
         } else {
             console.log("-> 가져온 추정 매출(상권) 데이터가 없습니다")
-        }*/
+        }
 
+        
+
+        
         // 7.추정매출(상권배후지) 데이터 가져오기 -> 931438개 인데 여기서 더 못줄임 + 너무 오래걸림
         console.log("[7] 서울시 추정매출(상권배후지) 데이터를 가져옵니다... ")
         const estimateIncomeHinterlandData = await getSeoulEstimateIncome_hinterland();
@@ -434,10 +495,12 @@ async function main() {
         } else {
             console.log("-> 가져온 추정 매출(상권배후지) 데이터가 없습니다")
         }
-
+        */
+/*
     } catch (error) {
         console.error("테스트 실행 중 오류 발생:", error);
     }
 }
 
 main()
+*/

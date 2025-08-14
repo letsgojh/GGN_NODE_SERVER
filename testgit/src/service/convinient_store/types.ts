@@ -149,5 +149,24 @@ export interface getSeoulEstimateIncome_Param{
     AGRDE_40_SELNG_CO: number;          // 연령대_40_매출_건수
     AGRDE_50_SELNG_CO: number;          // 연령대_50_매출_건수
     AGRDE_60_ABOVE_SELNG_CO: number;    // 연령대_60_이상_매출_건수
-    
+}
+
+export interface getSeoulCommercialDistrict_Param{
+    TRDAR_SE_CD : string;
+    TRDAR_SE_CD_NM : string;
+    TRDAR_CD : number;
+    TRDAR_CD_NM: string;
+    XCNTS_VALUE: number;
+    YDNTS_VALUE: number;
+    SIGNGU_CD: number;
+    SIGNGU_CD_NM: string;
+    ADSTRD_CD:number;
+    ADSTRD_CD_NM:string;
+    RELM_AR:number;
+}
+
+export interface getAverageFloatingPopulation_by_region{
+    AVERAGE_FLOTING_POPULATION : number;
+    AVERAGE_FLOTING_POPULATION_21_24 : number;
+    AVERAGE_FLOTING_POPULATION_00_06 : number;
 }

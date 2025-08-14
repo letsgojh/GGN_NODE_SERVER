@@ -1,8 +1,15 @@
 import dotenv from "dotenv"
 import {getSeoulFloatingPopulation,
+    getSeoulCommercialDistrict,
     getSeoulMarketCount_commercial
 } from "../../controllers/populationController.js"
-
+import { getSeoulFloatingPopulationParam,
+    getSeoulMarketCount_Param,
+    getSeoulCompanyPopulation_Param,
+    getSeoulEstimateIncome_Param,
+    getSeoulCommercialDistrict_Param,
+    getAverageFloatingPopulation_by_region
+} from '../convinient_store/types.js'
 dotenv.config()
 
 
@@ -11,65 +18,71 @@ dotenv.config()
 export async function getSeoulCommercialDistrict_By_Region(auto : string,admin : string) : Promise<any>{ //auto는 자치구이름,admin은 행정동이름
     let startIndex : number = 1
     let endIndex : number = 1000
-    let url : string = `http://openapi.seoul.go.kr:8088/${process.env.AREA_KEY}/json/TbgisTrdarRelm/${startIndex}/${endIndex}/`
-    let tmp : any = await fetch(url).then((response)=>{
-            return response.json()
-        })
-
-    //const totalCount = tmp.VwsmTrdarFlpopQq.list_total_count
-    const result : any = []
-
-
-    while(true){
-        url = `http://openapi.seoul.go.kr:8088/${process.env.AREA_KEY}/json/TbgisTrdarRelm/${startIndex}/${endIndex}/`
-        const res : any = await fetch(url).then((response)=>{
-            return response.json()
-        }).catch((error)=>{
-            console.error(`${startIndex} ~ ${endIndex} 에서 ${error}에러`)
-            return []
-        })
-
-        if (!res || (res.RESULT && res.RESULT.CODE === 'INFO-200')) {
-            console.log(`데이터 없음 → 반복 종료`);
-            break;
-        }
-
-        
-        for(let tmp of res.TbgisTrdarRelm.row){
-            if((tmp.SIGNGU_CD_NM === auto)&&(tmp.ADSTRD_CD_NM === admin))
-                result.push(tmp.TRDAR_CD_NM)
-                console.log(tmp.TRDAR_CD_NM)
-            //자치구 코드 명은 SIGNGU_CD_NM, 행정동 코드명은 ADSTRD_CD_NM,상권이름은 TRDAR_CD_NM
-        }
-      
-        startIndex+=1000
-        endIndex+=1000
+    let list : getSeoulCommercialDistrict_Param[]= await getSeoulCommercialDistrict()
+    const result : string[] = []
+    for(let tmp of list){
+        if((tmp.SIGNGU_CD_NM === auto)&&(tmp.ADSTRD_CD_NM === admin))
+            result.push(tmp.TRDAR_CD_NM)
+            //console.log(tmp.TRDAR_CD_NM)
+        //자치구 코드 명은 SIGNGU_CD_NM, 행정동 코드명은 ADSTRD_CD_NM,상권이름은 TRDAR_CD_NM
     }
 
-    console.dir(result,{depth : null})
-    console.log(`서울시 영역 api 사용`)
-    console.log(`total Data Length of 서울특별시 영역: ${result.length}`)
     return result
 }
 
-//특정 자치구의 특정 행정동에 해당하는 상권들의 유동인구 평균을 구하는 함수
-export async function getAverageFloatingPopulation_by_region(commercialRegion : any) : Promise<any>{ //admin은 행정동이름, auto는 자치구이름
+//특정 자치구의 특정 행정동에 해당하는 상권들의 유동인구 평균을 구하는 함수(총 유동인구 평균, 21:00~06:00 유동인구 평균)
+export async function getAverageFloatingPopulation_by_region(commercialRegion : any) : Promise<getAverageFloatingPopulation_by_region>{ //admin은 행정동이름, auto는 자치구이름
    const list : any = await getSeoulFloatingPopulation()
    let sum : number = 0
    let cnt : number = 0
-   //console.dir(list,{depth:null})
-  
+
+   //총 유동인구, 시간별 유동인구
+   let result : getAverageFloatingPopulation_by_region ={
+    AVERAGE_FLOTING_POPULATION : 0,
+    AVERAGE_FLOTING_POPULATION_21_24 : 0,
+    AVERAGE_FLOTING_POPULATION_00_06 : 0
+   }
+
+
    for(let tmp of commercialRegion){
     for(let tmp1 of list){
         if(tmp1.TRDAR_CD_NM === tmp){
-            sum += parseFloat(tmp1.TOT_FLPOP_CO)
+            result.AVERAGE_FLOTING_POPULATION += parseFloat(tmp1.TOT_FLPOP_CO)
+            result.AVERAGE_FLOTING_POPULATION_00_06 += parseFloat(tmp1.TMZON_00_06_FLPOP_CO)
+            result.AVERAGE_FLOTING_POPULATION_21_24 += parseFloat(tmp1.TMZON_21_24_FLPOP_CO)
             cnt++
         }
     }
    }
    //console.log(sum)
-   sum /= cnt
-   return sum
+   result.AVERAGE_FLOTING_POPULATION /= cnt
+   result.AVERAGE_FLOTING_POPULATION_00_06 /= cnt
+   result.AVERAGE_FLOTING_POPULATION_21_24 /= cnt
+   
+   return result
+}
+
+//특정 상권의 유동인구 평균 구하는 함수(총 유동인구와 21:00 ~ 06:00 유동인구 평균 구한다)
+export async function getFloatingPopulation_by_commercial_district(name : string) : Promise<getAverageFloatingPopulation_by_region>{
+   const list : getSeoulFloatingPopulationParam[] = await getSeoulFloatingPopulation()
+   
+   //결과값 담을 인터페이스 초기화
+   let result : getAverageFloatingPopulation_by_region = {
+    AVERAGE_FLOTING_POPULATION : 0,
+    AVERAGE_FLOTING_POPULATION_21_24 : 0,
+    AVERAGE_FLOTING_POPULATION_00_06 : 0,
+   }
+
+   for(let tmp of list){
+    if(tmp.TRDAR_CD_NM === name){
+        result.AVERAGE_FLOTING_POPULATION = tmp.TOT_FLPOP_CO
+        result.AVERAGE_FLOTING_POPULATION_21_24 = tmp.TMZON_21_24_FLPOP_CO
+        result.AVERAGE_FLOTING_POPULATION_00_06 = tmp.TMZON_00_06_FLPOP_CO
+        break
+    }
+   }
+
+   return result
 }
 
 //특정 자치구 특정 행정동에 해당하는 상권들의 특정 업종 점포수 평균 구하는 함수
@@ -93,11 +106,15 @@ export async function getAverageMarketCount_by_region_and_industry(commercialReg
 
 
 async function main(){
-    const commercialRegion : any = await getSeoulCommercialDistrict_By_Region("강남구","역삼1동")
+    const commercialRegion : any = await getSeoulCommercialDistrict_By_Region("영등포구","신길5동")
     const average_floating_population : any= await getAverageFloatingPopulation_by_region(commercialRegion)
-    const average_market_count : any = await getAverageMarketCount_by_region_and_industry(commercialRegion,"편의점")
-    console.log(`총 평균 유동인구 : ${average_floating_population}`)
-    console.log(`총 평균 점포 수 ${average_market_count}`)
+    const floatingPopulation_by_commercial_district : any = await getFloatingPopulation_by_commercial_district("신풍역 3번")
+    //const average_market_count : any = await getAverageMarketCount_by_region_and_industry(commercialRegion,"편의점")
+    console.log(`지역 총 평균 유동인구 : ${JSON.stringify(average_floating_population,null,2)}`)
+    console.log(`관심 상권 유동인구 : ${JSON.stringify(floatingPopulation_by_commercial_district,null,2)}`)
+    //console.log(`지역 총 평균 점포 수 ${average_market_count}`)
+    //낮에는 업무,통학등 수요가 섞여 편의점과 직접적 연관이 약함
+    //console.log(`지역 시간별 유동인구 평균(편의점 핵심 시간대인 21:00 ~ 06:00만)`)
 }
 
 main()
