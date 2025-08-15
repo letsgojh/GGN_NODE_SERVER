@@ -16,7 +16,7 @@ import {
 
   getSeoulCommercialDistrict_commercial_Param,
   getSeoulCommercialDistrict_hinterland_Param
-} from "../domain/types.ts"
+} from "./types.ts"
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirnameSafe = path.dirname(__filename);

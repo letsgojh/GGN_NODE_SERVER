@@ -26,7 +26,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../controllers/populationController.js'
+} from '../../domain/populationController.ts'
 
 
 import {
@@ -340,7 +340,7 @@ export async function getPredictedIncomePerPop_hinterland_one_sanggwon(name : st
     return ans
 }
 
-
+/*
 async function main() {
     //const res1 : getTotalPopPerStore_Param = await getTotalPopPerStore_commercial_one_sanggwon("자하문터널")
     const res2 : getPredictedIncomePerPop_Param = await getPredictedIncomePerPop_commercial_one_sanggwon("자하문터널")
@@ -349,3 +349,4 @@ async function main() {
        
 }
 main()
+*/

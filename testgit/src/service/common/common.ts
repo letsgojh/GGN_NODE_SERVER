@@ -26,7 +26,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../controllers/populationController.js'
+} from '../../domain/populationController.ts'
 
 
 import {
