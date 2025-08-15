@@ -1,7 +1,18 @@
+/**
+ * 설명
+ * 상점당 매트릭스 계산 함수
+ * 
+ */
+
+
+
 import { AreaFilter, makeNameSelectors } from "./area.ts";
 import { getAverage, round } from "./math.ts";
 import { getLabel, Label } from "./label.ts";
 import { getStoreCountMap_commercial } from "./getStoreCountMap.ts";
+
+
+
 
 export type numeratorType = {
   code: string;
@@ -23,6 +34,12 @@ export type PerStoreResult = {
 };
 
 export async function calcPerStoreMetrix(params: {
+  /**
+   * 지역 필터
+   * - gu: 구 이름
+   * - dong: 동 이름
+   * - trdarName: 상권 이름
+   */
   area: AreaFilter;
   numeratorFetcher: (svcCode?: string) => Promise<numeratorType[]>; // income은 svcCode 사용
   svcCode?: string;
