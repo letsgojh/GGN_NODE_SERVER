@@ -7,7 +7,7 @@ import path from "path";
 import { fetchSeoulApi } from "../utils/fetchSeoulApi.ts";
 import {
   getSeoulFloatingPopulation_Param,
-  getSeoulCompanyPopulation_Param,
+  getCompanyPopulation_Param,
   getResidentPopulation_Param,
 
   getSeoulMarketCount_Param,
@@ -16,11 +16,10 @@ import {
 
   getSeoulCommercialDistrict_commercial_Param,
   getSeoulCommercialDistrict_hinterland_Param
-} from "../service/convenient_store/types.ts"
+} from "../domain/types.ts"
 import { fileURLToPath } from "url";
-const __dirnameSafe = typeof __dirname !== "undefined"
-  ? __dirname
-  : path.dirname(new URL(import.meta.url).pathname);
+const __filename = fileURLToPath(import.meta.url);
+const __dirnameSafe = path.dirname(__filename);
 
   // 후보 경로들(프로젝트 구조에 맞게 위에서부터 탐색)
 const candidates = [
@@ -28,6 +27,7 @@ const candidates = [
   path.resolve(__dirnameSafe, "../../../../server/.env"), // server/.env 구조를 쓴다면
   path.resolve(process.cwd(), ".env"),                    // 현재 작업 디렉토리/.env
 ];
+
 const ENV_PATH = candidates.find(p => fs.existsSync(p));
 dotenv.config(ENV_PATH ? { path: ENV_PATH, override: true } : {});dotenv.config({ path: ENV_PATH, override: true });
 
@@ -64,8 +64,8 @@ export async function getSeoulFloatingPopulation_hinterland(): Promise<getSeoulF
 // ---------------------------------------------
 // 3. 직장인구 (상권)
 // ---------------------------------------------
-export async function getSeoulCompanyPopulation_commercial(): Promise<getSeoulCompanyPopulation_Param[]> {
-  const data = await fetchSeoulApi<getSeoulCompanyPopulation_Param>(
+export async function getSeoulCompanyPopulation_commercial(): Promise<getCompanyPopulation_Param[]> {
+  const data = await fetchSeoulApi<getCompanyPopulation_Param>(
     "VwsmTrdarWrcPopltnQq",
     "VwsmTrdarWrcPopltnQq"
   );
@@ -76,8 +76,8 @@ export async function getSeoulCompanyPopulation_commercial(): Promise<getSeoulCo
 // ---------------------------------------------
 // 4. 직장인구 (상권배후지)
 // ---------------------------------------------
-export async function getSeoulCompanyPopulation_hinterland(): Promise<getSeoulCompanyPopulation_Param[]> {
-  const data = await fetchSeoulApi<getSeoulCompanyPopulation_Param>(
+export async function getSeoulCompanyPopulation_hinterland(): Promise<getCompanyPopulation_Param[]> {
+  const data = await fetchSeoulApi<getCompanyPopulation_Param>(
     "Vwsm_TrdhlWrcPopltnQq",
     "Vwsm_TrdhlWrcPopltnQq"
   );
@@ -105,7 +105,7 @@ export async function getResidentPopulation_hinterland(): Promise<getResidentPop
     "VwsmTrdhlRepopQq",
     "VwsmTrdhlRepopQq"
   );
-  console.log("서울시 상주인구 (상권):", data.length);
+  console.log("서울시 상주인구 (상권배후지):", data.length);
   return data;
 }
 
@@ -200,6 +200,7 @@ export async function getSeoulCommercialDistrict_hinterland(): Promise<getSeoulC
 // ---------------------------------------------
 // 테스트 실행용
 // ---------------------------------------------
+/*
 async function main() {
   console.log("📦 테스트 실행 시작...");
   await getSeoulFloatingPopulation_commercial();
@@ -222,3 +223,4 @@ async function main() {
   await getSeoulCommercialDistrict_hinterland();
 }
 main();
+*/

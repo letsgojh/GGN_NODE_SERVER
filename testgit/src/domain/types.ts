@@ -37,7 +37,7 @@ export interface getSeoulFloatingPopulation_Param{
  * 서울시 직장인구(상권, 상권배후지) API의 데이터 구조를 정의하는 인터페이스
  * 
  */
-export interface getSeoulCompanyPopulation_Param{
+export interface getCompanyPopulation_Param{
     STDR_YYQU_CD: string;                   // 기준_년분기_코드
     TRDAR_SE_CD: string;                    // 상권_구분_코드
     TRDAR_SE_CD_NM: string;                 // 상권_구분_코드_명
@@ -244,3 +244,27 @@ export interface getSeoulCommercialDistrict_hinterland_Param{
     RELM_AR: number;	                 // 영역_면적 
 }
 
+
+
+export interface getAverageFloatingPopulation_by_region{
+    AVERAGE_FLOTING_POPULATION : number;
+    AVERAGE_FLOTING_POPULATION_21_24 : number;
+    AVERAGE_FLOTING_POPULATION_00_06 : number;
+}
+
+//common.ts/getTotalPopPerStore_commercial
+export interface getTotalPopPerStore_Param{
+    TOTAL_FLOATING_POP_PER_STORE: number;
+    TOTAL_COMPANY_POP_PER_STORE: number;
+    TOTAL_RESIDENT_POP_PER_STORE: number;
+    
+}
+
+
+//common.ts/getPredictedIncomePerPop_commercial
+export interface getPredictedIncomePerPop_Param{
+    PREDICTED_INCOME_PER_FLOATING_POP : number;
+    PREDICTED_INCOME_PER_COMPANY_POP : number;
+    PREDICTED_INCOME_PER_RESIDENT_POP : number;
+    
+}
