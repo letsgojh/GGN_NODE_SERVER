@@ -1,0 +1,1 @@
+export const CAFE_SVC = "CS1000100"; // 카페 서비스 코드

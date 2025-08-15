@@ -1,0 +1,15 @@
+import {getResidentPopulation} from "../../domain/population/getResidentPopulation.ts";
+import type { getSeoulResidentPopulation_Param } from "../../domain/types.ts";
+import type { numeratorType } from "./numeratorType.ts";
+
+export default async function getResidentNumerator(): Promise<numeratorType[]> {
+  const rawData: getSeoulResidentPopulation_Param[] = await getResidentPopulation();
+  return rawData.map((data) => {
+    return {
+      code: data.TRDAR_CD,
+      name: data.TRDAR_CD_NM,
+      quarter: data.STDR_YYQU_CD,
+      value: data.TOT_REPOP_CO,
+    };
+  });
+}
