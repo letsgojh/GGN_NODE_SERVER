@@ -5,9 +5,9 @@ export interface getSeoulFloatingPopulation_Param{
 
     STDR_YYQU_CD: string;               // 기준_년분기_코드
     TRDAR_SE_CD: string;                // 상권_구분_코드
-    TRDAR_SE_CD_NM: string;             // 상권_구분_코드_명
+    TRDAR_SE_CD_NM: string;             // 상권_구분_코드_명(ex 골목상권)
     TRDAR_CD: string;                   // 상권_코드
-    TRDAR_CD_NM: string;                // 상권_코드_명
+    TRDAR_CD_NM: string;                // 상권_코드_명(ex 화계중학교)
     TOT_FLPOP_CO: number;               // 총_유동인구_수
     ML_FLPOP_CO: number;                // 남성_유동인구_수
     FML_FLPOP_CO: number;               // 여성_유동인구_수
@@ -185,7 +185,7 @@ export interface getSeoulEstimateIncome_Param{
 /**
  * 서울시 임대료 API 정보의 데이터구조를 정의하는 인터페이스
  */
-export interface ggetSeoulStorePrice_Param {
+export interface getSeoulStorePrice_Param {
     RCPT_YR: string;                     // 접수연도
 	CGG_CD: string;                      //	자치구코드
 	CGG_NM: string;                      // 자치구명

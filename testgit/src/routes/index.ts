@@ -1,8 +1,9 @@
-import express, { Router } from 'express';
-import populationRouter from './populationRouter.js';
+import { Router } from "express";
+import populationRouter from "./populationRouter.ts";
 
 const router: Router = Router();
 
-router.use('/population', populationRouter);
+// /api/population/* 엔드포인트
+router.use("/population", populationRouter);
 
 export default router;

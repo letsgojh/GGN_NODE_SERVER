@@ -5,117 +5,128 @@ import fetch from "node-fetch";
 async function retry<T>(fn: () => Promise<T>, tries = 3, baseMs = 400): Promise<T> {
   let lastErr: any;
   for (let i = 0; i < tries; i++) {
-    try {
-      return await fn();
-    } catch (err) {
+    try { return await fn(); }
+    catch (err) {
       lastErr = err;
-      if (i === tries - 1) break; // 마지막 시도면 종료
-      const delay = baseMs * Math.pow(2, i); // 0.4s → 0.8s → 1.6s ...
-      await new Promise((r) => setTimeout(r, delay));
+      if (i === tries - 1) break;
+      await new Promise(r => setTimeout(r, baseMs * Math.pow(2, i)));
     }
   }
   throw lastErr;
 }
 
+type Params = Record<string, string | number | undefined>;
+
+function buildQuery(params: Params): string {
+  const q = Object.entries(params)
+    .filter(([, v]) => v !== undefined && v !== null && v !== "")
+    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`)
+    .join("&");
+  return q ? `?${q}` : "";
+}
+
 export async function fetchSeoulApi<T>(
   endpoint: string,
   rootKey: string,
-  yearCode?: string,
+  yearCode?: string, // deprecated: STDR_YYQU_CD로 자동 매핑
   options?: {
     step?: number;        // 요청당 최대 건수 (기본 1000)
-    maxPages?: number;    // 안전장치: 최대 페이지 수
-    extraParams?: string; // 추가 쿼리스트링 (예: "&GU_CD=...") — 앞에 & 포함
+    maxPages?: number;    // (선택) 여전히 사용 가능하지만 기본값은 무제한
+    params?: Params;      // 쿼리 파라미터
+    extraParams?: string; // (레거시) "&GU_CD=..." 문자열
     delayMs?: number;     // 페이지 사이 딜레이 (기본 200ms)
+    hardCap?: number;     // (선택) 안전 장치로 전체 최대 수량을 하드캡
   }
 ): Promise<T[]> {
   const result: T[] = [];
-  const step = options?.step ?? 1000;
-  const maxPages = options?.maxPages ?? 200;
-  const extraParams = options?.extraParams ?? "";
-  const delayMs = options?.delayMs ?? 200;
+  const step      = options?.step ?? 1000;
+  const delayMs   = options?.delayMs ?? 200;
+  const hardCap   = options?.hardCap; // 무제한이지만 원하면 안전장치로 사용
+  const maxPages  = options?.maxPages ?? Number.POSITIVE_INFINITY; // ← 무제한 기본값
 
-  const base = "http://openapi.seoul.go.kr:8088";
-  const rawKey = process.env.AUTHENTICATION_KEY ?? "";
-  const key = encodeURIComponent(rawKey);
+  const base      = "http://openapi.seoul.go.kr:8088";
+  const rawKey    = process.env.AUTHENTICATION_KEY ?? "";
+  const key       = encodeURIComponent(rawKey);
 
   if (!rawKey) {
     throw new Error("환경변수 AUTHENTICATION_KEY가 비어 있습니다. .env 설정을 확인하세요.");
   }
 
-  // 일부 엔드포인트는 세그먼트에 이미 json이 포함되지만,
-  // 비정상/제한 응답 시 XML을 줄 수 있어 resultType=json을 함께 강제 시도
-  const JSON_PARAM = "&resultType=json";
-
   let startIndex = 1;
-  let endIndex = step;
+  let endIndex   = step;
+  let totalCount: number | undefined;
 
   for (let page = 1; page <= maxPages; page++) {
-    // yearCode가 필요한 API만 yearPart를 추가
-    const yearPart = yearCode ? `/${encodeURIComponent(yearCode)}` : "";
-    // 캐시 회피용 파라미터(_)와 JSON_PARAM/extraParams 추가
-    const url =
-      `${base}/${key}/json/${endpoint}/${startIndex}/${endIndex}` +
-      `${yearPart}?_=${Date.now()}${JSON_PARAM}${extraParams}`;
-    
+    const mergedParams: Params = {
+      _: Date.now(),
+      resultType: "json",
+      STDR_YYQU_CD: yearCode ?? undefined,   // yearCode → 쿼리 파라미터로 매핑
+      ...(options?.params ?? {}),
+    };
+
+    const qs =
+      buildQuery(mergedParams) +
+      (options?.extraParams
+        ? (buildQuery(mergedParams) ? "&" : "?") +
+          options.extraParams.replace(/^\?/, "").replace(/^&/, "")
+        : "");
+
+    const url = `${base}/${key}/json/${encodeURIComponent(endpoint)}/${startIndex}/${endIndex}${qs}`;
+
     const data = await retry(async () => {
-      const res = await fetch(url, {
-        headers: { Accept: "application/json,*/*" },
-      });
-    
-      // HTTP 상태 확인
+      const res = await fetch(url, { headers: { Accept: "application/json,*/*" } });
+
       if (!res.ok) {
-        const txt = await res.text();
+        const txt  = await res.text();
         const code = txt.match(/<CODE>([^<]+)<\/CODE>/i)?.[1] ?? String(res.status);
         const msg  = txt.match(/<MESSAGE>([^<]+)<\/MESSAGE>/i)?.[1] ?? "HTTP error";
-        throw new Error(`HTTP ${res.status} / CODE=${code} / MSG=${msg}`);
+        throw new Error(`HTTP ${res.status} / CODE=${code} / MSG=${msg} / endpoint=${endpoint} page=${page} range=${startIndex}-${endIndex}`);
       }
 
       const ct = res.headers.get("content-type") || "";
-
-      // JSON 우선
       if (ct.includes("application/json")) {
-        // 여기서 Record<string, any>로 캐스팅 → 문자열 인덱싱 허용
         return (await res.json()) as Record<string, any>;
       }
-    
-      // 그 외(대개 XML) → 텍스트로 읽고 의미있는 에러로 변환
+
       const txt = await res.text();
       const code = txt.match(/<CODE>([^<]+)<\/CODE>/i)?.[1] ?? "UNKNOWN";
       const msg  = txt.match(/<MESSAGE>([^<]+)<\/MESSAGE>/i)?.[1] ?? "Non-JSON response";
-      throw new Error(`Non-JSON response. CODE=${code} MSG=${msg}`);
+      throw new Error(`Non-JSON response. CODE=${code} MSG=${msg} / endpoint=${endpoint} page=${page} range=${startIndex}-${endIndex}`);
     });
-  
-    // === API 표준 응답 구조 점검 ===
+
     const payload = data?.[rootKey] as Record<string, any> | undefined;
 
-    // RESULT.CODE로 정상/종료 판단
     const resultCode: string | undefined = payload?.RESULT?.CODE;
-    if (resultCode === "INFO-200") {
-      console.log("데이터 없음 → 반복 종료");
-      break;
-    }
+    if (resultCode === "INFO-200") break;               // 데이터 없음
     if (resultCode && resultCode !== "INFO-000") {
       const msg = payload?.RESULT?.MESSAGE ?? "Unknown";
-      console.warn(`서버 RESULT.CODE=${resultCode}, MESSAGE=${msg} → 반복 종료`);
+      console.warn(`RESULT.CODE=${resultCode} MESSAGE=${msg} endpoint=${endpoint} page=${page}`);
       break;
     }
-    
+
+    if (typeof payload?.list_total_count === "number") {
+      totalCount = payload.list_total_count;
+    }
+
     const rows = (payload?.row ?? []) as T[];
-    if (!Array.isArray(rows) || rows.length === 0) {
-      console.log("행(row) 없음 → 반복 종료");
-      break;
-    }
+    if (!Array.isArray(rows) || rows.length === 0) break;
 
     result.push(...rows);
 
-    // 다음 페이지로
-    startIndex += step;
-    endIndex += step;
-
-    // 과도한 요청 방지
-    if (delayMs > 0) {
-      await new Promise((r) => setTimeout(r, delayMs));
+    // (선택) 하드캡 도달 시 종료
+    if (typeof hardCap === "number" && result.length >= hardCap) {
+      result.length = hardCap; // 초과분 잘라내기
+      break;
     }
+
+    // 총 개수 도달 시 종료
+    if (typeof totalCount === "number" && result.length >= totalCount) break;
+
+    // 다음 페이지
+    startIndex += step;
+    endIndex   += step;
+
+    if (delayMs > 0) await new Promise(r => setTimeout(r, delayMs));
   }
 
   return result;
