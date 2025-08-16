@@ -200,9 +200,10 @@ export async function getSeoulCommercialDistrict_hinterland(): Promise<getSeoulC
 // ---------------------------------------------
 // 테스트 실행용
 // ---------------------------------------------
-/*
+
 async function main() {
   console.log("📦 테스트 실행 시작...");
+  /*
   await getSeoulFloatingPopulation_commercial();
   await getSeoulFloatingPopulation_hinterland();
   await getSeoulCompanyPopulation_commercial();
@@ -213,14 +214,16 @@ async function main() {
 
   await getSeoulMarketCount_commercial();
   await getSeoulMarketCount_hinterland();
+*/
 
   await getSeoulEstimateIncome_commercial();
+/*
   await getSeoulEstimateIncome_hinterland();
 
   await getSeoulStorePrice();
 
   await getSeoulCommercialDistrict_commercial();
   await getSeoulCommercialDistrict_hinterland();
+  */
 }
 main();
-*/

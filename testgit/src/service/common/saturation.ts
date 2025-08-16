@@ -26,15 +26,9 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../domain/populationController.ts'
+} from '../../domain/populationDomain.ts'
 import { getSanggwon_By_Region_commercial } from '../convenient_store/service.ts';
 
-//유리,보통,불리 판단 type
-export type Grade = {
-    float : string,
-    company : string,
-    resident : string
-}
 export async function getSaturation(auto : string, admin : string, name : string) : Promise<getTotalPopPerStore_Param>{
     
 
@@ -166,35 +160,4 @@ export async function getSaturation(auto : string, admin : string, name : string
     console.log(`마지막 저장값 ${JSON.stringify(ans3,null,2)}`)
 
     return ans3     
-}
-
-export async function calculateGrade(auto : string, admin : string, name : string) : Promise<Grade>{
-
-    const tmp : getTotalPopPerStore_Param = await getSaturation(auto,admin,name)
-    
-    let ans : Grade = {
-        float : "",
-        company : "",
-        resident : ""
-    }
-
-    ans.float = await judgeByCondition(tmp.TOTAL_FLOATING_POP_PER_STORE)
-    ans.company = await judgeByCondition(tmp.TOTAL_COMPANY_POP_PER_STORE)
-    ans.resident = await judgeByCondition(tmp.TOTAL_RESIDENT_POP_PER_STORE)
-
-    console.log(ans.float)
-    console.log(ans.company)
-    console.log(ans.resident)
-    
-    return ans
-}
-
-export async function judgeByCondition(number : number) : Promise<string>{
-    if(number > 1.3){
-        return "유리"
-    }else if(number >= 1.1 && number <= 1.3 ){
-        return "적정"
-    }else{
-        return "불리"
-    }
 }

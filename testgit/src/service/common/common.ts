@@ -26,7 +26,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../domain/populationController.ts'
+} from '../../domain/populationDomain.ts'
 
 
 import {
@@ -201,7 +201,7 @@ export async function getTotalPopPerStore_hinterland(auto : string,admin : strin
 }
 
 //2-1. 인구수 대비 매출액(상권) 계산
-
+//1인당 매출(소비)액 : 크다면(인구는 많지 않아도 소비력이 큼), 작다면(인구는 많아도 실제 소비가 적음)
 //추정매출(상권) / 총 유동인구(상권)
 //추정매출(상권) / 총 직장인구(상권)
 //추정매출(상권) / 총 상주인구(상권)
