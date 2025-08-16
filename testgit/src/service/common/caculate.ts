@@ -32,9 +32,13 @@ export type Grade = {
 //1. 지역(지역의 모든 상권) 인구 포화도 / 상권(한 상권) 인구 포화도  
 //auto : 자치구, admin : 행정동, name : 상권이름
 export async function calculateGrade_marketCount_by_Pop(auto : string, admin : string, name : string) : Promise<Grade>{
-    //지역 인구 포화도
+    //지역 인구 포화도-
+    // 여기서 상권별 유동,직장,상주인구 api, 상권이름 가져오는 함수, 상권별 점포수 가져오는 api 호출 
+    // + for문 돌려서 매핑
     const tmp1 : getTotalPopPerStore_Param = await getTotalPopPerStore_commercial(auto,admin)
     //상권 하나의 인구 포화도
+    //여기서 상권별 유동,직장,상주인구 api, 상권별 점포수 가져오는 api 호출
+    // + for문 돌려서 매
     const tmp2 : getTotalPopPerStore_Param = await getTotalPopPerStore_commercial_one_sanggwon(name)
 
     const result : getTotalPopPerStore_Param = {

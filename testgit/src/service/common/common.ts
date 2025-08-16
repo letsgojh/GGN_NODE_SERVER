@@ -101,7 +101,7 @@ export async function getTotalPopPerStore_commercial(auto : string,admin : strin
     //총 점포수 담을 변수
     let totalMarketCount : number = 0;
 
-        console.log(`상권별 점포수 계산 중...`)
+    console.log(`상권별 점포수 계산 중...`)
 
     for(let tmp1 of commercialDistrict_by_region){
         for(let tmp2 of seoulMarketCount_commercial){
