@@ -182,7 +182,6 @@ export interface getSeoulEstimateIncome_Param{
     AGRDE_60_ABOVE_SELNG_CO: number;    // 연령대_60_이상_매출_건수
     
 }
-
 /**
  * 서울시 임대료 API 정보의 데이터구조를 정의하는 인터페이스
  */
@@ -200,8 +199,8 @@ export interface getSeoulStorePrice_Param {
 	CTRT_DAY: string;                    // 계약일
 	RENT_SE:  string;                    // 전월세 구분
 	RENT_AREA: number;                   // 임대면적(㎡)
-	GRFE:    string;                     //	보증금(만원)
-	RTFE:     string;                    //	임대료(만원)
+	GRFE:    number;                     //	보증금(만원)
+	RTFE:     number;                    //	임대료(만원)
 	BLDG_NM:  string;                    // 건물명
 	ARCH_YR:  string;                    // 건축년도
 	BLDG_USG: string;                    // 건물용도
@@ -267,4 +266,63 @@ export interface getPredictedIncomePerPop_Param{
     PREDICTED_INCOME_PER_COMPANY_POP : number;
     PREDICTED_INCOME_PER_RESIDENT_POP : number;
     
+}
+
+export interface getSeoulEstimateIncome_district_Param{
+    STDR_YYQU_CD: string;               // 기준_년분기_코드
+    SIGNGU_CD: string;                  // 자치구_코드
+    SIGNGU_CD_NM: string;               // 자치구_코드_명
+    SVC_INDUTY_CD: string;              // 서비스_업종_코드
+    SVC_INDUTY_CD_NM: string;           // 서비스_업종_코드_명
+    THSMON_SELNG_AMT: number;           // 당월_매출_금액
+    THSMON_SELNG_CO: number;            // 당월_매출_건수
+    MDWK_SELNG_AMT: number;             // 주중_매출_금
+    WKEND_SELNG_AMT: number;            // 주말_매출_금액
+    MON_SELNG_AMT: number;              // 월요일_매출_금액
+    TUES_SELNG_AMT: number;             // 화요일_매출_금액
+    WED_SELNG_AMT: number;              // 수요일_매출_금액
+    THUR_SELNG_AMT: number;             // 목요일_매출_금액
+    FRI_SELNG_AMT: number;              // 금요일_매출_금액
+    SAT_SELNG_AMT: number;              // 토요일_매출_금액
+    SUN_SELNG_AMT: number;              // 일요일_매출_금액
+    TMZON_00_06_SELNG_AMT: number;      // 시간대_00~06_매출_금액
+    TMZON_06_11_SELNG_AMT: number;      // 시간대_06~11_매출_금액
+    TMZON_11_14_SELNG_AMT: number;      // 시간대_11~14_매출_금액
+    TMZON_14_17_SELNG_AMT: number;      // 시간대_14~17_매출_금액
+    TMZON_17_21_SELNG_AMT: number;      // 시간대_17~21_매출_금액
+    TMZON_21_24_SELNG_AMT: number;      // 시간대_21~24_매출_금액
+    ML_SELNG_AMT: number;               // 남성_매출_금액
+    FML_SELNG_AMT: number;              // 여성_매출_금액
+    AGRDE_10_SELNG_AMT: number;         // 연령대_10_매출_금액
+    AGRDE_20_SELNG_AMT: number;          // 연령대_20_매출_금액
+    AGRDE_30_SELNG_AMT: number;         // 연령대_30_매출_금액
+    AGRDE_40_SELNG_AMT: number;         // 연령대_40_매출_금액
+    AGRDE_50_SELNG_AMT: number;         // 연령대_50_매출_금액
+    AGRDE_60_ABOVE_SELNG_AMT: number;   // 연령대_60_이상_매출_금액
+    MDWK_SELNG_CO: number;              // 주중_매출_건수
+    WKEND_SELNG_CO: number;             // 주말_매출_건수
+    MON_SELNG_CO: number;               // 월요일_매출_건수
+    TUES_SELNG_CO: number;              // 화요일_매출_건수
+    WED_SELNG_CO: number;               // 수요일_매출_건수
+    THUR_SELNG_CO: number;              // 목요일_매출_건수
+    FRI_SELNG_CO: number;               // 금요일_매출_건수
+    SAT_SELNG_CO: number;               // 토요일_매출_건수
+    SUN_SELNG_CO: number;               // 일요일_매출_건수
+    TMZON_00_06_SELNG_CO: number;       // 시간대_00~06_매출_건수
+    TMZON_06_11_SELNG_CO: number;       // 시간대_06~11_매출_건수
+    TMZON_11_14_SELNG_CO: number;       // 시간대_11~14_매출_건수
+    TMZON_14_17_SELNG_CO: number;       // 시간대_14~17_매출_건수
+    TMZON_17_21_SELNG_CO: number;       // 시간대_17~21_매출_건수
+    TMZON_21_24_SELNG_CO: number;       // 시간대_21~24_매출_건수
+    ML_SELNG_CO: number;                // 남성_매출_건수
+    FML_SELNG_CO: number;               // 여성_매출_건수
+    AGRDE_10_SELNG_CO: number;          // 연령대_10_매출_건수
+    AGRDE_20_SELNG_CO: number;          // 연령대_20_매출_건수
+    AGRDE_30_SELNG_CO: number;          // 연령대_30_매출_건수
+    AGRDE_40_SELNG_CO: number;          // 연령대_40_매출_건수
+    AGRDE_50_SELNG_CO: number;          // 연령대_50_매출_건수
+    AGRDE_60_ABOVE_SELNG_CO: number;    // 연령대_60_이상_매출_건수
+}
+export interface getPredictedIncomePerRent_Param{
+    PREDICTED_INCOME_PER_RENT : number; // 임대료 대비 추정 매출 비율
 }

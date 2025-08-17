@@ -26,7 +26,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../domain/populationController.ts'
+} from '../../domain/domain.ts'
 
 
 import {
@@ -340,13 +340,11 @@ export async function getPredictedIncomePerPop_hinterland_one_sanggwon(name : st
     return ans
 }
 
-/*
-async function main() {
-    //const res1 : getTotalPopPerStore_Param = await getTotalPopPerStore_commercial_one_sanggwon("자하문터널")
-    const res2 : getPredictedIncomePerPop_Param = await getPredictedIncomePerPop_commercial_one_sanggwon("자하문터널")
-    //console.log(`자하문터널 인구포화도(상권) : ${JSON.stringify(res1,null,2)}`)
-    console.log(`자하문터널 인구수 대비 매출액(상권) : ${JSON.stringify(res2,null,2)}`)
-       
-}
-main()
-*/
+
+// async function main() {
+//     const res1 : getTotalPopPerStore_Param = await getTotalPopPerStore_commercial_one_sanggwon("자하문터널")
+//     const res2 : getPredictedIncomePerPop_Param = await getPredictedIncomePerPop_commercial_one_sanggwon("자하문터널")
+//     console.log(`자하문터널 인구포화도(상권) : ${JSON.stringify(res1,null,2)}`)
+//     console.log(`자하문터널 인구수 대비 매출액(상권) : ${JSON.stringify(res2,null,2)}`)
+// }
+// main()

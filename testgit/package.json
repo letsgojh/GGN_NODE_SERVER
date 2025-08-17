@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node src/app.ts",
     "build": "tsc",
     "dev": "tsx watch src/app.ts",
     "generate-swagger": "node generate-swagger.js"
@@ -15,17 +15,19 @@
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "mysql2": "^3.14.3",
-    "typescript": "^5.9.2"
+    "mysql2": "^3.14.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
-    "@types/node": "^24.2.1",
+    "@types/node": "^24.3.0",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "nodemon": "^3.1.10",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.4",
+    "typescript": "^5.9.2"
   },
   "compilerOptions": {
     "target": "ES2020",

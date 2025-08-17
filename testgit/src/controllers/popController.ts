@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import {
-    calculateGrade_marketCount_by_Pop,
+    calculateGrade,
     Grade
-} from '../service/common/caculate.ts'
+} from '../service/common/populationList.ts'
 
 /**
  * GET 
@@ -19,7 +19,7 @@ export async function getPopPerStore(req : Request, res : Response){
         }
 
 
-        const ans : Grade = await calculateGrade_marketCount_by_Pop(gu,dong,name)
+        const ans : Grade = await calculateGrade(gu,dong,name)
         res.json(ans)
     }catch(err){
         if(err){

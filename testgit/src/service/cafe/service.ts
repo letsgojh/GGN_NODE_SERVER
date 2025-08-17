@@ -31,6 +31,7 @@ import {
 
 dotenv.config()
 
+const svcCode: string = "CS100010"
 
 //서울특별시 영역에 따른 상권을 가져오는 메서드
 //특정영역에 존재하는 상권 반환

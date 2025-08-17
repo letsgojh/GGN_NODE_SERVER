@@ -9,7 +9,9 @@ import {
     getSeoulCommercialDistrict_hinterland_Param,
     getAverageFloatingPopulation_by_region,
     getTotalPopPerStore_Param,
-    getPredictedIncomePerPop_Param
+    getPredictedIncomePerPop_Param,
+    getPredictedIncomePerRent_Param,
+    getSeoulEstimateIncome_district_Param
 } from '../../domain/types.ts'
 
 import {
@@ -26,14 +28,15 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../domain/populationController.ts'
+    getSeoulEstimateIncome_district,
+} from '../../domain/domain.ts'
 
 
 import {
     getSanggwon_By_Region_commercial,
     getSanggwon_By_Region_hinterland,
     
-} from '../convenient_store/service.js'
+} from '../convenient_store/service.ts'
 //공통으로 보낼 정보 구성
 
 
@@ -101,7 +104,7 @@ export async function getTotalPopPerStore_commercial(auto : string,admin : strin
     //총 점포수 담을 변수
     let totalMarketCount : number = 0;
 
-        console.log(`상권별 점포수 계산 중...`)
+    console.log(`상권별 점포수 계산 중...`)
 
     for(let tmp1 of commercialDistrict_by_region){
         for(let tmp2 of seoulMarketCount_commercial){
@@ -350,23 +353,101 @@ export async function getPredictedIncomePerPop_hinterland(auto : string,admin : 
         PREDICTED_INCOME_PER_COMPANY_POP : totalIncome/totalCompanyPop,
         PREDICTED_INCOME_PER_RESIDENT_POP : totalIncome/totalResidentPop,
     }
+    return ans
+}
+//3. 상권별 임대료 대비 추정매출 비율 계산
+// 월세만 계산
+// (평당 임대료 / 당월 매출액[해당 구동 매출액 합 다 구해서 평균 구한 것])
+// gu === 자치구 코드명(종로구))
+export async function getPredictedIncomePerLent_commercial(gu: string) : Promise<getPredictedIncomePerRent_Param>{
+    console.log(gu);
+    const lentMap = new Map<string, number>();
+    console.log("임대료 불러오는중");
+    const lentList : getSeoulStorePrice_Param[] = await getSeoulStorePrice();
+    console.log("추정매출액 불러오는중");
+    const incomeList : getSeoulEstimateIncome_district_Param[] = await getSeoulEstimateIncome_district();
+    const incomeMap=new Map<string, number>();
+    const incomeMapPlusCount = new Map<String,number>();
+    const regionMap = new Map<string,string>();
+    let oneLentPerPredictedIncome: number = 0;
+    let totalLentPerPredictedIncome : number =0;
+    let count = 0;
+    // lentList[자치구 코드] = 평당 임대료(월세만 계산)
+    for(let lentItem of lentList){
+        if(lentItem.RENT_SE ==="전세"){
+            continue;
+        }
+        if(!lentMap.has(lentItem.CGG_CD)){
+            lentMap.set(lentItem.CGG_CD, lentItem.RTFE/lentItem.RENT_AREA);
+        }
+        else{
+            lentMap.set(lentItem.CGG_CD, lentMap.get(lentItem.CGG_CD)! + lentItem.RTFE/lentItem.RENT_AREA);
+        }
+    }
+    // incomeMap[자치구 코드] = 해당 자치구 추정 매출의 합
+    // incomeMapPlusCount[자치구 코드] = 해당 자치구 추정 매출의 합 더한 횟수(평균구하기 위해서 만든 맵)
+    for(let incomeItem of incomeList){
+        if(!incomeMap.has(incomeItem.SIGNGU_CD)){
+            regionMap.set(incomeItem.SIGNGU_CD, incomeItem.SIGNGU_CD_NM);
+            incomeMap.set(incomeItem.SIGNGU_CD, incomeItem.THSMON_SELNG_AMT);
+            incomeMapPlusCount.set(incomeItem.SIGNGU_CD,1);
+        }
+        else{
+            incomeMap.set(incomeItem.SIGNGU_CD, incomeMap.get(incomeItem.SIGNGU_CD)?? 0 + incomeItem.THSMON_SELNG_AMT);
+            incomeMapPlusCount.set(incomeItem.SIGNGU_CD,incomeMapPlusCount.get(incomeItem.SIGNGU_CD)??0+1);
+        }
+    }
+    /**
+     * 1. 해당 자치구 매출액 평균 구하기
+     * 2. 헤딩자치구 해당 자치구 매출액 평균 / 평당 임대료 을 lentMap에 넣음
+     * 3. 하나의 자치구 매출액 / 임대료 을 저장하기
+     * 4. totalLentPerPredictedIncome 에다가 다 더한 후 더한 횟수만큼 나누기
+     */
+    console.dir(incomeMap.keys());
+    for(let key of incomeMap.keys()){
+        incomeMap.set(key, (incomeMap.get(key) ?? 0) / (incomeMapPlusCount.get(key) ?? 1));
+        lentMap.set(key,(incomeMap.get(key)??0)/(lentMap.get(key)??0))
+        count++;
+        if(regionMap.get(key) === gu){
+            oneLentPerPredictedIncome=lentMap.get(key)??0;
+        }
+        totalLentPerPredictedIncome+= lentMap.get(key)??0;
+    }
 
+    totalLentPerPredictedIncome/=count;
+    
+
+    const ans : getPredictedIncomePerRent_Param = {
+        PREDICTED_INCOME_PER_RENT : oneLentPerPredictedIncome/totalLentPerPredictedIncome
+    }
 
     return ans
 }
-/*
-async function main(){
-    const res1 : getTotalPopPerStore_Param = await getTotalPopPerStore_commercial("종로구","청운효자동")
-    //const res2 : getTotalPopPerStore_Param = await getTotalPopPerStore_hinterland("종로구","청운효자동")
-    //const res3 :getPredictedIncomePerPop_Param = await getPredictedIncomePerPop_commercial("종로구","청운효자동")
-    //const res4 :getPredictedIncomePerPop_Param = await getPredictedIncomePerPop_hinterland("종로구","청운효자동")
-    
-    console.log(`종로구 청운효자동 인구포화도(상권) : ${JSON.stringify(res1,null,2)}`)
-    //console.log(`종로구 청운효자동 인구포화도(상권배후지) : ${JSON.stringify(res2,null,2)}`)
-    //console.log(`종로구 청운효자동 인구수대비 추정매출(상권) : ${JSON.stringify(res3,null,2)}`)
-    //console.log(`종로구 청운효자동 인구수대비 추정매출(상권배후지) : ${JSON.stringify(res4,null,2)}`)
-    
-}
 
-main()
+
+
+/*
+// async function main(){
+//     const res1 : getTotalPopPerStore_Param = await getTotalPopPerStore_commercial("종로구","청운효자동")
+//     const res2 : getTotalPopPerStore_Param = await getTotalPopPerStore_hinterland("종로구","청운효자동")
+//     const res3 :getPredictedIncomePerPop_Param = await getPredictedIncomePerPop_commercial("종로구","청운효자동")
+//     const res4 :getPredictedIncomePerPop_Param = await getPredictedIncomePerPop_hinterland("종로구","청운효자동")
+
+//     console.log(`종로구 청운효자동 인구포화도(상권) : ${JSON.stringify(res1,null,2)}`)
+//     console.log(`종로구 청운효자동 인구포화도(상권배후지) : ${JSON.stringify(res2,null,2)}`)
+//     console.log(`종로구 청운효자동 인구수대비 추정매출(상권) : ${JSON.stringify(res3,null,2)}`)
+//     console.log(`종로구 청운효자동 인구수대비 추정매출(상권배후지) : ${JSON.stringify(res4,null,2)}`)
+    
+// }
+
+// main()
 */
+
+// 테스트 코드( 예상매출액 / 평당 임대료 )
+// async function main(){
+//     console.log("test code");
+//     const res :getPredictedIncomePerRent_Param = await getPredictedIncomePerLent_commercial("종로구");
+//     console.log(res);
+// }
+
+// main();
