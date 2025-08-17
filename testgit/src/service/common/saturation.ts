@@ -28,8 +28,10 @@ import {
     getSeoulCommercialDistrict_hinterland,
 } from '../../domain/populationDomain.ts'
 import { getSanggwon_By_Region_commercial } from '../convenient_store/service.ts';
+import { getMarketCount_by_category } from './industry/bigIndustry.ts';
+import { Category, getCategory } from './industry/category.ts';
 
-export async function getSaturation(auto : string, admin : string, name : string) : Promise<getTotalPopPerStore_Param>{
+export async function getSaturation(auto : string, admin : string, name : string, industry : string) : Promise<getTotalPopPerStore_Param>{
     
 
     //지역의 인구/점포수 저장할 인터페이스
@@ -64,9 +66,14 @@ export async function getSaturation(auto : string, admin : string, name : string
     console.log(`상권별 상주인구 받아오는 중...`)
     const seoulResidentPopulation : getResidentPopulation_Param[] = await getResidentPopulation_hinterland()
 
-    //상권별 점포수 -> 업종별로 구분해야되는데.. 일단 전체 점포수 들고오자(리팩토링 대상)
+    //상권별 점포수 -> 업종별로 구분
     console.log(`상권별 점포수 받아오는 중...`)
-    const seoulMarketCount_commercial : getSeoulMarketCount_Param[] = await getSeoulMarketCount_hinterland()
+    let seoulMarketCount_commercial : getSeoulMarketCount_Param[] = await getSeoulMarketCount_hinterland()
+    
+    //대분류 -> 소분류 리스트 받아오기
+    const list : Category = await getCategory(industry)
+    //업종명에 해당하는 상권정보만 받아오기
+    let seoulMarketCount_by_industry : getSeoulMarketCount_Param[] = await getMarketCount_by_category(list.items,seoulMarketCount_commercial)
     //총 점포수 담을 변수
     let totalMarketCount1 : number = 0;
     let totalMarketCount2 : number = 0;
@@ -130,7 +137,7 @@ export async function getSaturation(auto : string, admin : string, name : string
     console.log(`지역과 ${name}상권의 점포수 계산 중...`)
 
     for(let tmp1 of commercialDistrict_by_region){
-        for(let tmp2 of seoulMarketCount_commercial){
+        for(let tmp2 of seoulMarketCount_by_industry){
             if(tmp2.TRDAR_CD_NM	 === tmp1){
                 totalMarketCount1+= tmp2.STOR_CO
             }
