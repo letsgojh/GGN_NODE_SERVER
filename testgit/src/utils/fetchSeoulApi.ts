@@ -30,7 +30,7 @@ export async function fetchSeoulApi<T>(
 ): Promise<T[]> {
   const result: T[] = [];
   const step = options?.step ?? 1000;
-  const maxPages = options?.maxPages ?? 10;
+  const maxPages = options?.maxPages ?? 400;
   const extraParams = options?.extraParams ?? "";
   const delayMs = options?.delayMs ?? 0;
 

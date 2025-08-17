@@ -421,7 +421,8 @@ export async function getPredictedIncomePerLent_commercial(gu: string) : Promise
         PREDICTED_INCOME_PER_RENT : oneLentPerPredictedIncome/totalLentPerPredictedIncome
     }
 
-    return ans
+    return ans;
+
 }
 
 
@@ -444,10 +445,10 @@ export async function getPredictedIncomePerLent_commercial(gu: string) : Promise
 */
 
 // 테스트 코드( 예상매출액 / 평당 임대료 )
-// async function main(){
-//     console.log("test code");
-//     const res :getPredictedIncomePerRent_Param = await getPredictedIncomePerLent_commercial("종로구");
-//     console.log(res);
-// }
+async function main(){
+    console.log("test code");
+    const res :getPredictedIncomePerRent_Param = await getPredictedIncomePerLent_commercial("종로구");
+    console.log(res);
+}
 
-// main();
+main();

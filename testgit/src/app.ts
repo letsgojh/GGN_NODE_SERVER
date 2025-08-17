@@ -22,25 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 //app.use('/api', router);
 console.log('✅ app.ts 시작');
 
-app.use('/',router)
-app.get('/test',async (req:Request, res:Response)=>{
-    try{
-        const data = await getSeoulStorePrice();
-        res.json({message:data});
-    }catch(err){
-        console.error(err);
-        res.status(500).json({error:"error"})
-    }
-})
-app.get('/test1',async (req:Request, res:Response)=>{
-    try{
-        const data = await getSeoulEstimateIncome_district();
-        res.json({message:data});
-    }catch(err){
-        console.error(err);
-        res.status(500).json({error:"error"})
-    }
-})
+app.use('/',router);
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });

@@ -34,7 +34,6 @@ export type Grade = {
     float : string,
     company : string,
     resident : string
-    
 }
 export async function getSaturation(auto : string, admin : string, name : string) : Promise<getTotalPopPerStore_Param>{
     
