@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
-import {getSeoulFloatingPopulation,
+import {getSeoulFloatingPopulation_commercial,
     getSeoulMarketCount_commercial
-} from "../../controllers/populationController.ts"
+} from "../../domain/populationDomain.ts"
 
 dotenv.config()
 
@@ -54,7 +54,7 @@ export async function getSeoulCommercialDistrict_By_Region(auto : string,admin :
 
 //특정 자치구의 특정 행정동에 해당하는 상권들의 유동인구 평균을 구하는 함수
 export async function getAverageFloatingPopulation_by_region(commercialRegion : any) : Promise<any>{ //admin은 행정동이름, auto는 자치구이름
-   const list : any = await getSeoulFloatingPopulation()
+   const list : any = await getSeoulFloatingPopulation_commercial()
    let sum : number = 0
    let cnt : number = 0
    //console.dir(list,{depth:null})
