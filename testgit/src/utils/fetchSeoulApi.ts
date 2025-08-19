@@ -1,5 +1,5 @@
 // testgit/src/utils/fetchSeoulApi.ts
-import fetch from "node-fetch";
+//import fetch from "node-fetch";
 
 /** 간단한 지수 백오프 재시도 유틸 */
 async function retry<T>(fn: () => Promise<T>, tries = 3, baseMs = 400): Promise<T> {
