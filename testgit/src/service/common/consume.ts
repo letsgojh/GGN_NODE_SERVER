@@ -26,7 +26,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../domain/populationDomain.ts'
+} from '../../domain/calledData.ts'
 import { getSanggwon_By_Region_commercial } from '../convenient_store/service.ts';
 
 export async function getConsume(auto : string, admin : string, name : string) : Promise<getTotalPopPerStore_Param>{

@@ -27,7 +27,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../../domain/populationDomain.ts'
+} from '../../../domain/calledData.ts'
 
 // === 최종 반환 형태 ===
 type SummationRow = {
@@ -51,6 +51,7 @@ export async function pushSummationMarketCount_commercial(): Promise<SummationRo
 
   const subToTop = buildReverseMap(categoryMap);
 
+  
   // districtName(상권) → (대분류 → 점포수)
   const acc = new Map<string, Map<string, number>>();
 

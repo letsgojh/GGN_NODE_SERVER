@@ -17,10 +17,11 @@ import {
     postMarketCountHinterland,
     postEstimateIncomeCommercial,
     postEstimateIncomeHinterland,
+    getIncomePerLent
  } from '../controllers/commonController.ts';
 import express from 'express';
 import type {Express, Request, Response} from 'express';
-import { getSeoulMarketCount_hinterland } from '../domain/populationDomain.ts';
+import { getSeoulMarketCount_hinterland } from '../domain/calledData.ts';
 const router = Router();
 
 //대분류 업종에 소분류 업종 어떤 것이 있는지 알고싶다면
@@ -62,7 +63,8 @@ router.get('/incomePerCompanyPop',getIncomePerCompanyPop)
 router.get('/incomePerResidentPop',getIncomePerResidentPop)
 //추정매출 / 인구 수 반환
 router.get('/incomePerPop',getIncomePerPop)
-
+//추정매출 / 임대료 반환
+router.get('/incomePerLent',getIncomePerLent);
 
 //임대료 api와 전체 호출 api 추가해야함
 

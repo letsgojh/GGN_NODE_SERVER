@@ -11,6 +11,8 @@ import { pushSummationMarketCount_commercial,
     pushSummationEstimateIncome_hinterland,
  } from '../service/common/bigData/estimateIncome.ts';
 import { displayPartsToString } from 'typescript';
+import { getPredictedIncomePerRent_Param } from '../domain/types.ts';
+import { getPredictedIncomePerLent_commercial } from '../service/common/lent/getPredictedIncomePerLent_commercial.ts';
 /**
  * GET 
  * - description : 인구수(유동,직장,상주) / 점포수 들고오는 메서드
@@ -133,13 +135,13 @@ export async function getFloatPopPerStore(req : Request, res : Response){
 
 export async function getCompanyPopPerStore(req : Request, res : Response){
     try{
-        const {gu, dong, name} = req.query as {
+        const {gu, dong, name,industry} = req.query as {
             gu : string;
             dong: string;
             name : string;
             industry : string;
         }
-        const ans : Grade = await calculateGrade(gu,dong,name,await getSaturation(gu,dong,name))
+        const ans : Grade = await calculateGrade(gu,dong,name,await getSaturation(gu,dong,name,industry))
         res.json(ans)
     }catch(err){
         if(err){
@@ -151,13 +153,13 @@ export async function getCompanyPopPerStore(req : Request, res : Response){
 
 export async function getResidentPopPerStore(req : Request, res : Response){
     try{
-        const {gu, dong, name} = req.query as {
+        const {gu, dong, name,industry} = req.query as {
             gu : string;
             dong: string;
             name : string;
             industry : string;
         }
-        const ans : Grade = await calculateGrade(gu,dong,name,await getSaturation(gu,dong,name))
+        const ans : Grade = await calculateGrade(gu,dong,name,await getSaturation(gu,dong,name,industry))
         res.json(ans)
     }catch(err){
         if(err){
@@ -256,6 +258,22 @@ export async function getIncomePerPop(req : Request, res : Response){
         if(err){
             console.error('등급 판정 중 오류, 오류 메세지 : ', err)
             throw err
+        }
+    }
+}
+
+export async function getIncomePerLent(req: Request, res:Response){
+    try{
+        const{ gu,industry} = req.query as{
+            gu: string;
+            industry: string;
+        }
+        const ans: getPredictedIncomePerRent_Param = await getPredictedIncomePerLent_commercial(gu);
+        res.json(ans);
+    }catch(err){
+        if(err){
+            console.error('등급 판정 중 오류, 오류 메세지 : ',err);
+            throw err;
         }
     }
 }

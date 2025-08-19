@@ -27,7 +27,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../../domain/populationDomain.ts'
+} from '../../../domain/calledData.ts'
 
 // === 최종 반환 형태 ===
 type SummationRow = {

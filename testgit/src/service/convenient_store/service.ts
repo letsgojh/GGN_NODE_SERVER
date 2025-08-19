@@ -27,7 +27,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../domain/populationDomain.ts'
+} from '../../domain/calledData.ts'
 
 dotenv.config()
 

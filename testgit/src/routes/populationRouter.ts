@@ -17,7 +17,7 @@ import {
 
   getSeoulStorePrice,
   
-} from '../domain/populationDomain.ts';
+} from '../domain/calledData.ts';
 
 const router: Router = express.Router();
 

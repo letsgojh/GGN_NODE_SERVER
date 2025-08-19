@@ -15,7 +15,8 @@ import {
   getSeoulStorePrice_Param,
 
   getSeoulCommercialDistrict_commercial_Param,
-  getSeoulCommercialDistrict_hinterland_Param
+  getSeoulCommercialDistrict_hinterland_Param,
+  getSeoulEstimateIncome_district_Param
 } from "./types.ts"
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
@@ -194,6 +195,18 @@ export async function getSeoulCommercialDistrict_hinterland(): Promise<getSeoulC
     "TbgisTrdhlRelmW"
   );
   console.log("서울시 영역 (상권배후지):", data.length);
+  return data;
+}
+// ---------------------------------------------
+// 14. 서울시 추정매출(자치구) 
+// ---------------------------------------------
+
+export async function getSeoulEstimateIncome_district(): Promise<getSeoulEstimateIncome_district_Param[]> {
+  const data = await fetchSeoulApi<getSeoulEstimateIncome_district_Param>(
+    "VwsmSignguSelngW",
+    "VwsmSignguSelngW",
+  );
+  console.log("서울시 추정매출 (자치구):", data.length);
   return data;
 }
 

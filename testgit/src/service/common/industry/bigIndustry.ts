@@ -26,7 +26,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../../domain/populationDomain.ts'
+} from '../../../domain/calledData.ts'
 import { getSanggwon_By_Region_commercial } from '../../convenient_store/service.ts';
 import { Category } from './category.ts';
 
