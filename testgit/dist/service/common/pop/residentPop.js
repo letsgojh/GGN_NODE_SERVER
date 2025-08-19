@@ -1,0 +1,78 @@
+import { getResidentPopulation_commercial, getResidentPopulation_hinterland, getSeoulMarketCount_commercial, getSeoulMarketCount_hinterland, } from '../../../domain/calledData.js';
+import { getSanggwon_By_Region_commercial, getSanggwon_By_Region_hinterland, } from '../../convenient_store/service.js';
+import { getMarketCount_by_category } from "../industry/bigIndustry.js";
+import { getCategory } from '../industry/category.js';
+export async function getResidentPopPerStore_commercial(auto, admin, industry) {
+    //지역의 상권이름 string[] 형태로 반환
+    const commercialDistrict_by_region = await getSanggwon_By_Region_commercial(auto, admin);
+    //상권별 상주인구
+    const seoulResidentPopulation = await getResidentPopulation_commercial();
+    //지역의 총 상주인구 수 담을 변수(일단 총 상주인구만)
+    let totalResidentPop = 0;
+    //시간복잡도.. 너무 오래걸림 -> 알고리즘 리팩토링(리팩토링 대상)
+    console.log(`지역별 총 상주인구 계산 중...`);
+    for (let tmp1 of commercialDistrict_by_region) {
+        for (let tmp2 of seoulResidentPopulation) {
+            if (tmp2.TRDAR_CD_NM === tmp1) {
+                totalResidentPop += tmp2.TOT_REPOP_CO;
+            }
+        }
+    }
+    //상권별 점포수 -> 업종별로 구분해야되는데.. 일단 전체 점포수 들고오자(리팩토링 대상)
+    const seoulMarketCount_commercial = await getSeoulMarketCount_commercial();
+    //대분류 -> 소분류 리스트 받아오기
+    const list = await getCategory(industry);
+    //업종명에 해당하는 상권정보만 받아오기
+    let seoulMarketCount_by_industry = await getMarketCount_by_category(list.items, seoulMarketCount_commercial);
+    //총 점포수 담을 변수
+    let totalMarketCount = 0;
+    console.log(`상권별 점포수 계산 중...`);
+    for (let tmp1 of commercialDistrict_by_region) {
+        for (let tmp2 of seoulMarketCount_by_industry) {
+            if (tmp2.TRDAR_CD_NM === tmp1) {
+                totalMarketCount += tmp2.STOR_CO;
+            }
+        }
+    }
+    const ans = {
+        resident: totalResidentPop / totalMarketCount
+    };
+    return ans;
+}
+export async function getResidentPopPerStore_hinterland(auto, admin, industry) {
+    //지역의 상권이름 string[] 형태로 반환
+    const commercialDistrict_by_region = await getSanggwon_By_Region_hinterland(auto, admin);
+    //상권별 상주인구
+    const seoulResidentPopulation = await getResidentPopulation_hinterland();
+    //지역의 총 상주인구 수 담을 변수(일단 총 상주인구만)
+    let totalResidentPop = 0;
+    //시간복잡도.. 너무 오래걸림 -> 알고리즘 리팩토링(리팩토링 대상)
+    console.log(`지역별 총 상주인구 계산 중...`);
+    for (let tmp1 of commercialDistrict_by_region) {
+        for (let tmp2 of seoulResidentPopulation) {
+            if (tmp2.TRDAR_CD_NM === tmp1) {
+                totalResidentPop += tmp2.TOT_REPOP_CO;
+            }
+        }
+    }
+    //상권별 점포수 -> 업종별로 구분해야되는데.. 일단 전체 점포수 들고오자(리팩토링 대상)
+    const seoulMarketCount_commercial = await getSeoulMarketCount_hinterland();
+    //대분류 -> 소분류 리스트 받아오기
+    const list = await getCategory(industry);
+    //업종명에 해당하는 상권정보만 받아오기
+    let seoulMarketCount_by_industry = await getMarketCount_by_category(list.items, seoulMarketCount_commercial);
+    //총 점포수 담을 변수
+    let totalMarketCount = 0;
+    console.log(`상권별 점포수 계산 중...`);
+    for (let tmp1 of commercialDistrict_by_region) {
+        for (let tmp2 of seoulMarketCount_by_industry) {
+            if (tmp2.TRDAR_CD_NM === tmp1) {
+                totalMarketCount += tmp2.STOR_CO;
+            }
+        }
+    }
+    const ans = {
+        resident: totalResidentPop / totalMarketCount
+    };
+    return ans;
+}

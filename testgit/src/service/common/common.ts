@@ -10,7 +10,7 @@ import {
     getAverageFloatingPopulation_by_region,
     getTotalPopPerStore_Param,
     getPredictedIncomePerPop_Param
-} from '../../domain/types.ts'
+} from '../../domain/types.js'
 
 import {
     getSeoulFloatingPopulation_commercial,
@@ -26,7 +26,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../domain/calledData.ts'
+} from '../../domain/calledData.js'
 
 
 import {

@@ -10,7 +10,7 @@ import {
     getAverageFloatingPopulation_by_region,
     getTotalPopPerStore_Param,
     getPredictedIncomePerPop_Param
-} from '../../../domain/types.ts'
+} from '../../../domain/types.js'
 
 import {
     getSeoulFloatingPopulation_commercial,
@@ -26,9 +26,9 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../../domain/calledData.ts'
-import { getSanggwon_By_Region_commercial } from '../../convenient_store/service.ts';
-import { Category } from './category.ts';
+} from '../../../domain/calledData.js'
+import { getSanggwon_By_Region_commercial } from '../../convenient_store/service.js';
+import { Category } from './category.js';
 
 //grade로 대분류 -> 소분류 리스트 받은 후, 소분류 리스트에 해당하는 점포수만 받아오기
 

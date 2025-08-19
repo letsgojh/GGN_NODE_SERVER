@@ -10,7 +10,7 @@ import {
     getAverageFloatingPopulation_by_region,
     getTotalPopPerStore_Param,
     getPredictedIncomePerPop_Param
-} from '../../../domain/types.ts'
+} from '../../../domain/types.js'
 
 import {
     getSeoulFloatingPopulation_commercial,
@@ -26,17 +26,17 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../../domain/calledData.ts'
+} from '../../../domain/calledData.js'
 
 
 import {
     getSanggwon_By_Region_commercial,
     getSanggwon_By_Region_hinterland,
     
-} from '../../convenient_store/service.ts'
+} from '../../convenient_store/service.js'
 
-import {getMarketCount_by_category} from "../industry/bigIndustry.ts"
-import { Category, getCategory } from '../industry/category.ts';
+import {getMarketCount_by_category} from "../industry/bigIndustry.js"
+import { Category, getCategory } from '../industry/category.js';
 
 
 

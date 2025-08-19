@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
-import {calculateGrade,Grade} from '../service/common/calculateGrade.ts'
-import {getSaturation} from '../service/common/saturation.ts'
-import {getConsume} from '../service/common/consume.ts'
-import { getCategory,Category } from '../service/common/industry/category.ts';
+import {calculateGrade,Grade} from '../service/common/calculateGrade.js'
+import {getSaturation} from '../service/common/saturation.js'
+import {getConsume} from '../service/common/consume.js'
+import { getCategory,Category } from '../service/common/industry/category.js';
 import { pushSummationMarketCount_commercial, 
     pushSummationMarketCount_hinterland,
- } from '../service/common/bigData/marketCount.ts';
+ } from '../service/common/bigData/marketCount.js';
 
  import { pushSummationEstimateIncome_commercial, 
     pushSummationEstimateIncome_hinterland,
- } from '../service/common/bigData/estimateIncome.ts';
+ } from '../service/common/bigData/estimateIncome.js';
 import { displayPartsToString } from 'typescript';
-import { getPredictedIncomePerRent_Param } from '../domain/types.ts';
-import { getPredictedIncomePerLent_commercial } from '../service/common/lent/getPredictedIncomePerLent_commercial.ts';
+import { getPredictedIncomePerRent_Param } from '../domain/types.js';
+import { getPredictedIncomePerLent_commercial } from '../service/common/lent/getPredictedIncomePerLent_commercial.js';
 /**
  * GET 
  * - description : 인구수(유동,직장,상주) / 점포수 들고오는 메서드

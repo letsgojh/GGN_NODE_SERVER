@@ -12,7 +12,7 @@ import {
   getPredictedIncomePerPop_Param,
   getPredictedIncomePerRent_Param,
   getSeoulEstimateIncome_district_Param
-} from '../../../domain/types.ts'
+} from '../../../domain/types.js'
 
 import {
   getSeoulFloatingPopulation_commercial,
@@ -29,12 +29,12 @@ import {
   getSeoulCommercialDistrict_commercial,
   getSeoulCommercialDistrict_hinterland,
   getSeoulEstimateIncome_district,
-} from '../../../domain/calledData.ts'
-import { mapToJson } from '../../../utils/JsonParser/MapToJson.ts';
-import { saveJson } from '../../../utils/JsonParser/SaveJson.ts';
-import { fileExists } from '../../../utils/existFile.ts';
-import { loadJson } from '../../../utils/JsonParser/LoadJson.ts';
-import { jsonToMap } from '../../../utils/JsonParser/JsonToMap.ts';
+} from '../../../domain/calledData.js'
+import { mapToJson } from '../../../utils/JsonParser/MapToJson.js';
+import { saveJson } from '../../../utils/JsonParser/SaveJson.js';
+import { fileExists } from '../../../utils/existFile.js';
+import { loadJson } from '../../../utils/JsonParser/LoadJson.js';
+import { jsonToMap } from '../../../utils/JsonParser/JsonToMap.js';
 
 
 export async function getPredictedIncomePerLent_commercial(gu: string) : Promise<getPredictedIncomePerRent_Param>{

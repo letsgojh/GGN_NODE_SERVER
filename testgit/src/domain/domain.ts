@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 
 import fs from "fs";
 import path from "path";
-import { fetchSeoulApi } from "../utils/fetchSeoulApi.ts";
+import { fetchSeoulApi } from "../utils/fetchSeoulApi.js";
 import {
   getSeoulFloatingPopulation_Param,
   getCompanyPopulation_Param,
@@ -15,7 +15,7 @@ import {
   getSeoulStorePrice_Param,
   getSeoulCommercialDistrict_commercial_Param,
   getSeoulCommercialDistrict_hinterland_Param,
-} from "./types.ts"
+} from "./types.js"
 import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirnameSafe = path.dirname(__filename);

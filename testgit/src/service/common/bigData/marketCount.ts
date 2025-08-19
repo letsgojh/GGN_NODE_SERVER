@@ -1,4 +1,4 @@
-import { categoryMap } from "../industry/category.ts";
+import { categoryMap } from "../industry/category.js";
 import {
     getSeoulFloatingPopulation_Param,
     getCompanyPopulation_Param,
@@ -11,7 +11,7 @@ import {
     getAverageFloatingPopulation_by_region,
     getTotalPopPerStore_Param,
     getPredictedIncomePerPop_Param
-} from '../../../domain/types.ts'
+} from '../../../domain/types.js'
 
 import {
     getSeoulFloatingPopulation_commercial,
@@ -27,7 +27,7 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../../domain/calledData.ts'
+} from '../../../domain/calledData.js'
 
 // === 최종 반환 형태 ===
 type SummationRow = {

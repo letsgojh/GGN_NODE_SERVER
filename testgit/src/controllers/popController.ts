@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import {
     calculateGrade,
     Grade
-} from '../service/common/populationList.ts'
+} from '../service/common/populationList.js'
 
 /**
  * GET 

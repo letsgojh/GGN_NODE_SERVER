@@ -18,10 +18,10 @@ import {
     postEstimateIncomeCommercial,
     postEstimateIncomeHinterland,
     getIncomePerLent
- } from '../controllers/commonController.ts';
+ } from '../controllers/commonController.js';
 import express from 'express';
 import type {Express, Request, Response} from 'express';
-import { getSeoulMarketCount_hinterland } from '../domain/calledData.ts';
+import { getSeoulMarketCount_hinterland } from '../domain/calledData.js';
 const router = Router();
 
 //대분류 업종에 소분류 업종 어떤 것이 있는지 알고싶다면

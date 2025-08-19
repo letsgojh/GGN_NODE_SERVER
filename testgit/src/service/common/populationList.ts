@@ -10,7 +10,7 @@ import {
     getAverageFloatingPopulation_by_region,
     getTotalPopPerStore_Param,
     getPredictedIncomePerPop_Param
-} from '../../domain/types.ts'
+} from '../../domain/types.js'
 
 import {
     getSeoulFloatingPopulation_commercial,
@@ -26,8 +26,8 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../domain/domain.ts'
-import { getSanggwon_By_Region_commercial } from '../convenient_store/service.ts';
+} from '../../domain/domain.js'
+import { getSanggwon_By_Region_commercial } from '../convenient_store/service.js';
 
 //유리,보통,불리 판단 type
 export type Grade = {

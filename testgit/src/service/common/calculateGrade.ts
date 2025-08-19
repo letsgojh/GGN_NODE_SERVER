@@ -10,7 +10,7 @@ import {
     getAverageFloatingPopulation_by_region,
     getTotalPopPerStore_Param,
     getPredictedIncomePerPop_Param
-} from '../../domain/types.ts'
+} from '../../domain/types.js'
 
 import {
     getSeoulFloatingPopulation_commercial,
@@ -26,10 +26,10 @@ import {
     getSeoulStorePrice,
     getSeoulCommercialDistrict_commercial,
     getSeoulCommercialDistrict_hinterland,
-} from '../../domain/calledData.ts'
+} from '../../domain/calledData.js'
 
-import {judgeByCondition} from './caculate.ts'
-import {getSaturation} from './saturation.ts'
+import {judgeByCondition} from './caculate.js'
+import {getSaturation} from './saturation.js'
 
 //유리,보통,불리 판단 type
 export type Grade = {

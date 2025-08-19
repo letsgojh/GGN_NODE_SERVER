@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import commonRouter from './commonRouter.ts';
+import commonRouter from './commonRouter.js';
 
 const router: Router = Router();
 
