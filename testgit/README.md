@@ -372,7 +372,8 @@ client와 server 그리고 node-server 디렉토리에 각각 .env파일을 생�
 
 - **챗봇 사용전 guide page**
   
-<img width="1000" height="500" alt="image" src="https://github.com/user-attachments/assets/41744616-5d7f-4511-b306-7d7ecf162447" />
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/810eb8b7-491a-4d02-b834-e3b7646fdbb6" />
+
 
 
 - **챗봇에게 상권분석 요청**
