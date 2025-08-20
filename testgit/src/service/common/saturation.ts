@@ -35,7 +35,7 @@ import { getMarketCountCommercial } from '../../domain/marketcount/marketCount.t
 // 상권 하나의 총 총 상주인구(상권) / 점포수(상권하나) 반환
 //name : 상권 하나의 이름
 
-export async function getSaturation(gu: string, dong: string, name : string, indsutry: string):Promise<getTotalPopPerStore_Param>{
+export async function getSaturation(gu: string, dong: string, name : string, indsutry?: string):Promise<getTotalPopPerStore_Param>{
     const districtName = `${gu} ${dong}`;
     console.log(districtName);
     const commercialName = name;
@@ -56,11 +56,10 @@ export async function getSaturation(gu: string, dong: string, name : string, ind
         totalStore_Dong += (storeCount!.get(commercial)?.get("total") || 0);
     }
     const ans: getTotalPopPerStore_Param={
-        TOTAL_COMPANY_POP_PER_STORE: (oneIncome_commercial!/oneCompanyPop)/(totalStore_Dong/totalCompanyPop!),
-        TOTAL_FLOATING_POP_PER_STORE: (oneIncome_commercial!/oneFloatingPop)/(totalStore_Dong/totalFloatingPop!),
-        TOTAL_RESIDENT_POP_PER_STORE: (oneIncome_commercial!/oneResidentPop)/(totalStore_Dong/totalResidentPop!)
+        TOTAL_COMPANY_POP_PER_STORE: (oneCompanyPop/oneIncome_commercial!)/(totalCompanyPop!/totalStore_Dong),
+        TOTAL_FLOATING_POP_PER_STORE: (oneFloatingPop/oneIncome_commercial!)/(totalFloatingPop!/totalStore_Dong),
+        TOTAL_RESIDENT_POP_PER_STORE: (oneResidentPop/oneIncome_commercial!)/(totalResidentPop!/totalStore_Dong)
     }
     return ans;
     
 }
-

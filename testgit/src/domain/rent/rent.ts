@@ -70,12 +70,3 @@ export async function getPredictedIncome_gu():Promise<Map<string,number>>{
   }
   return incomeMap;
 }
-
-async function main(){
-
-  const ans1 = await getPredictedIncome_gu();
-  const ans2 = await getRent();
-  console.log(ans1);
-  console.log(ans2);
-}
-main();

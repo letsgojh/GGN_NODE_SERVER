@@ -34,8 +34,3 @@ export async function getConsume(auto : string, admin : string, name : string) :
     return ans;
 
 }
-async function main(){
-    const ans = await getConsume("종로구","청운효자동","통인시장");
-    console.log(ans);
-}
-main();

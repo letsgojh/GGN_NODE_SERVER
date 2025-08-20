@@ -56,7 +56,6 @@ export async function getSeoulFloatingPopulation_hinterland(): Promise<getSeoulF
   const data = await fetchSeoulApi<getSeoulFloatingPopulation_Param>(
     "VwsmTrdhlFlpopQq",
     "VwsmTrdhlFlpopQq",
-    "20241"
   );
   console.log("서울시 유동인구 (상권배후지):", data.length);
   return data;
@@ -68,7 +67,8 @@ export async function getSeoulFloatingPopulation_hinterland(): Promise<getSeoulF
 export async function getSeoulCompanyPopulation_commercial(): Promise<getCompanyPopulation_Param[]> {
   const data = await fetchSeoulApi<getCompanyPopulation_Param>(
     "VwsmTrdarWrcPopltnQq",
-    "VwsmTrdarWrcPopltnQq"
+    "VwsmTrdarWrcPopltnQq",
+    "20241"
   );
   console.log("서울시 직장인구 (상권):", data.length);
   return data;
@@ -80,7 +80,7 @@ export async function getSeoulCompanyPopulation_commercial(): Promise<getCompany
 export async function getSeoulCompanyPopulation_hinterland(): Promise<getCompanyPopulation_Param[]> {
   const data = await fetchSeoulApi<getCompanyPopulation_Param>(
     "Vwsm_TrdhlWrcPopltnQq",
-    "Vwsm_TrdhlWrcPopltnQq"
+    "Vwsm_TrdhlWrcPopltnQq",
   );
   console.log("서울시 직장인구 (상권배후지):", data.length);
   return data;
@@ -92,7 +92,8 @@ export async function getSeoulCompanyPopulation_hinterland(): Promise<getCompany
 export async function getResidentPopulation_commercial(): Promise<getResidentPopulation_Param[]> {
   const data = await fetchSeoulApi<getResidentPopulation_Param>(
     "VwsmTrdarRepopQq",
-    "VwsmTrdarRepopQq"
+    "VwsmTrdarRepopQq",
+    "20241"
   );
   console.log("서울시 상주인구 (상권):", data.length);
   return data;
@@ -104,7 +105,7 @@ export async function getResidentPopulation_commercial(): Promise<getResidentPop
 export async function getResidentPopulation_hinterland(): Promise<getResidentPopulation_Param[]> {
   const data = await fetchSeoulApi<getResidentPopulation_Param>(
     "VwsmTrdhlRepopQq",
-    "VwsmTrdhlRepopQq"
+    "VwsmTrdhlRepopQq",
   );
   console.log("서울시 상주인구 (상권배후지):", data.length);
   return data;
@@ -141,7 +142,8 @@ export async function getSeoulMarketCount_hinterland(): Promise<getSeoulMarketCo
 export async function getSeoulEstimateIncome_commercial(): Promise<getSeoulEstimateIncome_Param[]> {
   const data = await fetchSeoulApi<getSeoulEstimateIncome_Param>(
     "VwsmTrdarSelngQq",
-    "VwsmTrdarSelngQq"
+    "VwsmTrdarSelngQq",
+    "20241"
   );
   console.log("서울시 추정 매출 (상권):", data.length);
   return data;
@@ -166,7 +168,8 @@ export async function getSeoulEstimateIncome_hinterland(): Promise<getSeoulEstim
 export async function getSeoulStorePrice(): Promise<getSeoulStorePrice_Param[]> {
   const data = await fetchSeoulApi<getSeoulStorePrice_Param>(
     "tbLnOpendataRentV",
-    "tbLnOpendataRentV"
+    "tbLnOpendataRentV",
+    "2024"
   );
   console.log("서울시 임대료(자치구):", data.length);
   return data;
@@ -205,38 +208,8 @@ export async function getSeoulEstimateIncome_district(): Promise<getSeoulEstimat
   const data = await fetchSeoulApi<getSeoulEstimateIncome_district_Param>(
     "VwsmSignguSelngW",
     "VwsmSignguSelngW",
+    "20241"
   );
   console.log("서울시 추정매출 (자치구):", data.length);
   return data;
 }
-
-// ---------------------------------------------
-// 테스트 실행용
-// ---------------------------------------------
-
-async function main() {
-  console.log("📦 테스트 실행 시작...");
-  /*
-  await getSeoulFloatingPopulation_commercial();
-  await getSeoulFloatingPopulation_hinterland();
-  await getSeoulCompanyPopulation_commercial();
-  await getSeoulCompanyPopulation_hinterland();
-
-  await getResidentPopulation_commercial();
-  await getResidentPopulation_hinterland();
-
-  await getSeoulMarketCount_commercial();
-  await getSeoulMarketCount_hinterland();
-*/
-
-  await getSeoulEstimateIncome_commercial();
-/*
-  await getSeoulEstimateIncome_hinterland();
-
-  await getSeoulStorePrice();
-
-  await getSeoulCommercialDistrict_commercial();
-  await getSeoulCommercialDistrict_hinterland();
-  */
-}
-main();

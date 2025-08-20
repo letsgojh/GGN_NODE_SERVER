@@ -1,9 +1,6 @@
 import dotenv from "dotenv";
 import express, { Express, Request, Response, NextFunction } from 'express';
 import router from './routes/index.ts';
-import specs from "./swagger.js";
-import swaggerUi from 'swagger-ui-express';
-import pool from "./db.js";
 
 dotenv.config();
 
