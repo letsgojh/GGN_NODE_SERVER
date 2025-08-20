@@ -168,7 +168,7 @@ export async function getSeoulStorePrice(): Promise<getSeoulStorePrice_Param[]> 
     "tbLnOpendataRentV",
     "tbLnOpendataRentV"
   );
-  console.log("서울시 추정 매출 (상권배후지):", data.length);
+  console.log("서울시 임대료(자치구):", data.length);
   return data;
 }
 

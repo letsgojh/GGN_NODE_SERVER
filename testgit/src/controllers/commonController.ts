@@ -2,100 +2,14 @@ import { Request, Response } from 'express';
 import {calculateGrade,Grade} from '../service/common/calculateGrade.ts'
 import {getSaturation} from '../service/common/saturation.ts'
 import {getConsume} from '../service/common/consume.ts'
-import { getCategory,Category } from '../service/common/industry/category.ts';
-import { pushSummationMarketCount_commercial, 
-    pushSummationMarketCount_hinterland,
- } from '../service/common/bigData/marketCount.ts';
-
- import { pushSummationEstimateIncome_commercial, 
-    pushSummationEstimateIncome_hinterland,
- } from '../service/common/bigData/estimateIncome.ts';
-import { displayPartsToString } from 'typescript';
-import { getPredictedIncomePerRent_Param } from '../domain/types.ts';
-import { getPredictedIncomePerLent_commercial } from '../service/common/lent/getPredictedIncomePerLent_commercial.ts';
+import { getCategory,Category } from '../domain/industry/category.ts';
+import { IncomePerRentService } from '../service/common/RentPerIncome.ts';
 /**
  * GET 
  * - description : 인구수(유동,직장,상주) / 점포수 들고오는 메서드
  * - gu,dong,name 형태의 쿼리로 request 구성
  * - svcCode : 점포수 집계에 적용할 업종 코드(카페/편의점 등)
  */
-
-let cache : any = null;
-
-export async function getMarketCountCommercial(req : Request , res : Response){
-  if (!cache) return res.status(404).json({ message: "데이터 없음" });
-    res.json(cache)
-}
-
-export async function getMarketCountHinterland(req : Request , res : Response){
-      if (!cache) return res.status(404).json({ message: "데이터 없음" });
-/*
-  // Object → Map 복원
-  const restored = cache.map((m: any) => ({
-    districtName: m.districtName,
-    list: new Map(Object.entries(m.list)),
-    }))*/
-   res.json(cache)
-}
-export async function getEstimateIncomeCommercial(req : Request , res : Response){
-      if (!cache) return res.status(404).json({ message: "데이터 없음" });
-    res.json(cache)
-}
-export async function getEstimateIncomeHinterland(req : Request , res : Response){
-      if (!cache) return res.status(404).json({ message: "데이터 없음" });
-    res.json(cache)
-}
-
-
-export async function postMarketCountCommercial(req : Request , res : Response){
-  const result = await pushSummationMarketCount_commercial();
-
-  // Map → Object 변환 (JSON 직렬화용)
-  const jsonReady = result.map(r => ({
-    districtName: r.districtName,
-    list: Object.fromEntries(r.list),
-  }));
-
-  cache = jsonReady; // JSON 형태로 저장
-  res.json({ message: "저장 완료", data: jsonReady });
-}
-
-export async function postMarketCountHinterland(req : Request , res : Response){
-  const result = await pushSummationMarketCount_hinterland();
-
-  // Map → Object 변환 (JSON 직렬화용)
-  const jsonReady = result.map(r => ({
-    districtName: r.districtName,
-    list: Object.fromEntries(r.list),
-  }));
-
-  cache = jsonReady; // JSON 형태로 저장
-  res.json({ message: "저장 완료", data: jsonReady });
-}
-export async function postEstimateIncomeCommercial(req : Request , res : Response){
-      const result = await pushSummationEstimateIncome_commercial();
-
-  // Map → Object 변환 (JSON 직렬화용)
-  const jsonReady = result.map(r => ({
-    districtName: r.districtName,
-    list: Object.fromEntries(r.list),
-  }));
-
-  cache = jsonReady; // JSON 형태로 저장
-  res.json({ message: "저장 완료", data: jsonReady });
-}
-export async function postEstimateIncomeHinterland(req : Request , res : Response){
-          const result = await pushSummationEstimateIncome_hinterland();
-
-  // Map → Object 변환 (JSON 직렬화용)
-  const jsonReady = result.map(r => ({
-    districtName: r.districtName,
-    list: Object.fromEntries(r.list),
-  }));
-
-  cache = jsonReady; // JSON 형태로 저장
-  res.json({ message: "저장 완료", data: jsonReady });
-}
 
 //대분류 업종을 넣으면 소분류 리스트로 반환
 //ex) "오락" 넣으면 [당구장,골프장,볼링장..] 반환
@@ -262,13 +176,13 @@ export async function getIncomePerPop(req : Request, res : Response){
     }
 }
 
-export async function getIncomePerLent(req: Request, res:Response){
+export async function getIncomePerRent(req: Request, res:Response){
     try{
         const{ gu,industry} = req.query as{
             gu: string;
             industry: string;
         }
-        const ans: getPredictedIncomePerRent_Param = await getPredictedIncomePerLent_commercial(gu);
+        const ans: number = await IncomePerRentService(gu);
         res.json(ans);
     }catch(err){
         if(err){
