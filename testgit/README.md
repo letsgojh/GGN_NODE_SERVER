@@ -11,7 +11,7 @@
 
 | **박재민** | **유재환** | **이상윤** | **이제원** | **차기원** | **전우진** |
 | :------: |  :------: | :------: | :------: | :------: | :------: |
-| [<img src="https://avatars.githubusercontent.com/u/104808174?v=4" height=150 width=150> <br/> @JMespoir](https://github.com/JMespoir) | [<img src="https://avatars.githubusercontent.com/u/138412939?v=4" height=150 width=150> <br/> @letsgojh](https://github.com/letsgojh) | [<img src="https://avatars.githubusercontent.com/u/112460506?v=4" height=150 width=150> <br/> @heejiyang](https://github.com/heejiyang) | [<img src="https://avatars.githubusercontent.com/u/105234406?v=4" height=150 width=150> <br/> @cozymob](https://github.com/cozymob) |[<img src="https://avatars.githubusercontent.com/u/189634852?v=4" height=150 width=150> <br/> @cha9572](https://github.com/journey-ji) |
+| [<img src="https://avatars.githubusercontent.com/u/104808174?v=4" height=150 width=150> <br/> @JMespoir](https://github.com/JMespoir) | [<img src="https://avatars.githubusercontent.com/u/138412939?v=4" height=150 width=150> <br/> @letsgojh](https://github.com/letsgojh) | [<img src="https://avatars.githubusercontent.com/u/112460506?v=4" height=150 width=150> <br/>] | [<img src="https://avatars.githubusercontent.com/u/105234406?v=4" height=150 width=150> <br/> @cozymob](https://github.com/cozymob) |[<img src="https://avatars.githubusercontent.com/u/189634852?v=4" height=150 width=150> <br/> @cha9572](https://github.com/journey-ji) |
 
 </div>
 
