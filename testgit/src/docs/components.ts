@@ -25,6 +25,7 @@
  *       example: 마포역2번출구
  *
  *   schemas:
+<<<<<<< HEAD
  *     Grade:
  *       type: object
  *       properties:
@@ -32,6 +33,22 @@
  *         company:  { type: string, enum: [유리, 적정, 불리] }
  *         resident: { type: string, enum: [유리, 적정, 불리] }
  *       required: [float, company, resident]
+=======
+ *     Grade_Pop:
+ *       type: object
+ *       properties:
+ *         float:    { type: string, enum: [유리, 적정, 불리, 측정불가] }
+ *         company:  { type: string, enum: [유리, 적정, 불리, 측정불가] }
+ *         resident: { type: string, enum: [유리, 적정, 불리, 측정불가] }
+ *       required: [float, company, resident]
+ * 
+ *     Grade_Income:
+ *       type:object
+ *       properties:
+ *          income: { type: string, enum: [유리, 적정, 불리, 측정불가] }
+ *       required: [income]
+ *      
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
  *     ErrorResponse:
  *       type: object
  *       properties:

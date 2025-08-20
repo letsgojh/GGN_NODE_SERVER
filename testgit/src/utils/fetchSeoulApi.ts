@@ -2,7 +2,7 @@
 import fetch from "node-fetch";
 
 /** 간단한 지수 백오프 재시도 유틸 */
-async function retry<T>(fn: () => Promise<T>, tries = 3, baseMs = 400): Promise<T> {
+async function retry<T>(fn: () => Promise<T>, tries = 5, baseMs = 400): Promise<T> {
   let lastErr: any;
   for (let i = 0; i < tries; i++) {
     try { return await fn(); }
@@ -39,10 +39,17 @@ export async function fetchSeoulApi<T>(
   }
 ): Promise<T[]> {
   const result: T[] = [];
+<<<<<<< HEAD
   const step      = options?.step ?? 1000;
   const delayMs   = options?.delayMs ?? 200;
   const hardCap   = options?.hardCap; // 무제한이지만 원하면 안전장치로 사용
   const maxPages  = options?.maxPages ?? Number.POSITIVE_INFINITY; // ← 무제한 기본값
+=======
+  const step = options?.step ?? 1000;
+  const maxPages = options?.maxPages ?? Number.POSITIVE_INFINITY;
+  const extraParams = options?.extraParams ?? "";
+  const delayMs = options?.delayMs ?? 0;
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
 
   const base      = "http://openapi.seoul.go.kr:8088";
   const rawKey    = process.env.AUTHENTICATION_KEY ?? "";
@@ -53,6 +60,7 @@ export async function fetchSeoulApi<T>(
   }
 
   let startIndex = 1;
+<<<<<<< HEAD
   let endIndex   = step;
   let totalCount: number | undefined;
 
@@ -73,6 +81,19 @@ export async function fetchSeoulApi<T>(
 
     const url = `${base}/${key}/json/${encodeURIComponent(endpoint)}/${startIndex}/${endIndex}${qs}`;
 
+=======
+  let endIndex = step;
+  let cnt=1
+  for (let page = 1; page <= maxPages; page++) {
+    cnt=cnt+1
+    // yearCode가 필요한 API만 yearPart를 추가
+    const yearPart = yearCode ? `/${encodeURIComponent(yearCode)}` : "";
+    // 캐시 회피용 파라미터(_)와 JSON_PARAM/extraParams 추가
+    const url =
+      `${base}/${key}/json/${endpoint}/${startIndex}/${endIndex}` +
+      `${yearPart}?_=${Date.now()}${JSON_PARAM}${extraParams}`;
+    
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
     const data = await retry(async () => {
       const res = await fetch(url, { headers: { Accept: "application/json,*/*" } });
 

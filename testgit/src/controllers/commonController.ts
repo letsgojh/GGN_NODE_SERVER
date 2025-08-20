@@ -1,7 +1,14 @@
 import { Request, Response } from 'express';
+<<<<<<< HEAD
 import {calculateGrade,Grade} from '../service/common/calculateGrade.ts'
 import {getSaturation} from '../service/common/saturation.ts'
 import {getConsume} from '../service/common/consume.ts'
+=======
+import {calculateGrade_Income, calculateGrade_Pop,Grade_Income,Grade_Pop} from '../service/common/calculateGrade.ts'
+import {getSaturation} from '../service/common/saturation.ts'
+import {getConsume} from '../service/common/consume.ts'
+import { IncomePerRentService } from '../service/common/RentPerIncome.ts';
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
 
 /**
  * GET 
@@ -16,7 +23,11 @@ export async function getPopPerStore(req : Request, res : Response){
             dong: string;
             name : string;
         }
+<<<<<<< HEAD
         const ans : Grade = await calculateGrade(gu,dong,name,await getSaturation(gu,dong,name))
+=======
+        const ans : Grade_Pop = await calculateGrade_Pop(gu,dong,name,await getSaturation(gu,dong,name))
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
         res.json(ans)
     }catch(err){
         if(err){
@@ -33,7 +44,29 @@ export async function getIncomePerPop(req : Request, res : Response){
             dong: string;
             name : string;
         }
+<<<<<<< HEAD
         const ans : Grade = await calculateGrade(gu,dong,name,await getConsume(gu,dong,name))
+=======
+        const ans : Grade_Pop = await calculateGrade_Pop(gu,dong,name,await getConsume(gu,dong,name))
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
+        res.json(ans)
+    }catch(err){
+        if(err){
+            console.error('등급 판정 중 오류, 오류 메세지 : ', err)
+            throw err
+        }
+    }
+<<<<<<< HEAD
+}
+=======
+}
+
+export async function getIncomePerRentService(req : Request, res : Response){
+    try{
+        const {gu} = req.query as {
+            gu : string
+        }
+        const ans : Grade_Income = await calculateGrade_Income(await IncomePerRentService(gu))
         res.json(ans)
     }catch(err){
         if(err){
@@ -42,3 +75,4 @@ export async function getIncomePerPop(req : Request, res : Response){
         }
     }
 }
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede

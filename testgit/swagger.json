@@ -1,15 +1,24 @@
 {
+<<<<<<< HEAD
   "openapi": "3.0.3",
   "info": {
     "title": "상권분석 API",
     "version": "1.0.0",
     "description": "인구/매출/임대료 등 상권 분석용 API"
+=======
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Agent Server",
+    "description": "Express 기반 Agentica API SERVER"
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
   },
   "servers": [
     {
       "url": "http://localhost:3000"
     }
   ],
+<<<<<<< HEAD
   "components": {
     "parameters": {
       "GuQuery": {
@@ -190,6 +199,8 @@
       "description": "원천 데이터 확인"
     }
   ],
+=======
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
   "paths": {
     "/common/popPerStore": {
       "get": {
@@ -198,11 +209,25 @@
         ],
         "operationId": "getPopPerStore",
         "summary": "인구/점포수 기반 '유리/적정/불리' 등급",
+<<<<<<< HEAD
         "description": "자치구(gu), 행정동(dong), 상권명(name)을 받아 상권의 상대적 포화도를 등급으로 반환합니다.",
         "parameters": [
             { "$ref": "#/components/parameters/GuQuery" },
             { "$ref": "#/components/parameters/DongQuery" },
             { "$ref": "#/components/parameters/NameQuery" }
+=======
+        "description": "자치구(gu), 행정동(dong), 상권명(name)을 받아 상권의 상대적 포화도를 등급으로 반환\n계산 방식:  해당 상권의 유동, 직장, 상주 인구수 각각을 점포수로 나누어 내부 기준으로 구간화하여 '유리/적정/불리' 등급을 반환\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuQuery"
+          },
+          {
+            "$ref": "#/components/parameters/DongQuery"
+          },
+          {
+            "$ref": "#/components/parameters/NameQuery"
+          }
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
         ],
         "responses": {
           "200": {
@@ -210,13 +235,22 @@
             "content": {
               "application/json": {
                 "schema": {
+<<<<<<< HEAD
                   "$ref": "#/components/schemas/Grade"
+=======
+                  "$ref": "#/components/schemas/Grade_Pop"
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
                 },
                 "examples": {
                   "sample": {
                     "value": {
+<<<<<<< HEAD
                       "float": "불리",
                       "company": "불리",
+=======
+                      "float": "유리",
+                      "company": "적정",
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
                       "resident": "불리"
                     }
                   }
@@ -225,6 +259,7 @@
             }
           },
           "400": {
+<<<<<<< HEAD
             "description": "잘못된 파라미터",
             "content": {
               "application/json": {
@@ -243,6 +278,18 @@
                 }
               }
             }
+=======
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
           }
         }
       }
@@ -253,12 +300,27 @@
           "Common"
         ],
         "operationId": "getIncomePerPop",
+<<<<<<< HEAD
         "summary": "인구당 매출 기반 등급(유동·직장·상주)",
         "description": "자치구(gu), 행정동(dong), 상권명(name)을 받아 인구당 추정매출을 지역 평균과 비교한 상대지표로 등급을 반환합니다.",
         "parameters": [
             { "$ref": "#/components/parameters/GuQuery" },
             { "$ref": "#/components/parameters/DongQuery" },
             { "$ref": "#/components/parameters/NameQuery" }
+=======
+        "summary": "인구당 매출 기반 '유리/적정/불리' 등급",
+        "description": "자치구(gu), 행정동(dong), 상권명(name)을 받아 인구당 추정매출을 지역 평균과 비교한 상대지표로 등급을 반환\n계산 방식: 해당 상권의 점포 추정매출을 유동, 직장, 상주인구 수 각각으로 나눈 값을 내부 기준으로 구간화하여 '유리/적정/불리' 등급을 반환합니다.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuQuery"
+          },
+          {
+            "$ref": "#/components/parameters/DongQuery"
+          },
+          {
+            "$ref": "#/components/parameters/NameQuery"
+          }
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
         ],
         "responses": {
           "200": {
@@ -266,13 +328,22 @@
             "content": {
               "application/json": {
                 "schema": {
+<<<<<<< HEAD
                   "$ref": "#/components/schemas/Grade"
+=======
+                  "$ref": "#/components/schemas/Grade_Pop"
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
                 },
                 "examples": {
                   "sample": {
                     "value": {
+<<<<<<< HEAD
                       "float": "불리",
                       "company": "불리",
+=======
+                      "float": "유리",
+                      "company": "적정",
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
                       "resident": "불리"
                     }
                   }
@@ -281,6 +352,7 @@
             }
           },
           "400": {
+<<<<<<< HEAD
             "description": "잘못된 파라미터",
             "content": {
               "application/json": {
@@ -299,10 +371,23 @@
                 }
               }
             }
+=======
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
           }
         }
       }
     },
+<<<<<<< HEAD
     "/api/population/floating": {
       "get": {
         "summary": "서울시 유동인구(상권)"
@@ -339,4 +424,55 @@
       }
     }
   }
+=======
+    "/common/IncomePerRentService": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "operationId": "getIncomePerRentService",
+        "summary": "해당 자치구의 임대료 대비 추정매출",
+        "description": "자치구(gu)를 받아 임대료당 추정매출을 지역 평균과 비교한 상대지표로 등급을 반환\n계산 방식: (해당 자치구의 추정매출/해당 자치구의 평균임대료)를 (모든 자치구의 추정매출/모든 자치구의 평균임대료)로 나눈 값을 내부 기준으로 구간화하여 '유리/적정/불리' 등급을 반환합니다.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/GuQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Grade_Income"
+                },
+                "examples": {
+                  "sample": {
+                    "value": {
+                      "income": "유리"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+>>>>>>> fabc089f1f5ac97fc7ad2816dc0559a771749ede
 }
