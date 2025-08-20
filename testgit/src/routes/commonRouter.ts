@@ -1,48 +1,124 @@
 import { Router } from 'express';
 import { 
-    getPopPerStore,
-    getIncomePerPop,
-    getIncomePerRentService
- } from '../controllers/commonController.ts';
+  getPopPerStore,
+  getIncomePerPop,
+  getIncomePerRentService
+} from '../controllers/commonController.ts';
+
 const router = Router();
 
 /**
  * @openapi
  * /common/popPerStore:
  *   get:
- *     tags:
- *       - Common
+ *     tags: [Common]
  *     operationId: getPopPerStore
  *     summary: 인구/점포수 기반 '유리/적정/불리' 등급
  *     description: |
  *       자치구(gu), 행정동(dong), 상권명(name)을 받아 상권의 상대적 포화도를 등급으로 반환
- *       계산 방식:  해당 상권의 유동, 직장, 상주 인구수 각각을 점포수로 나누어 내부 기준으로 구간화하여 '유리/적정/불리' 등급을 반환
+ *       계산 방식: 해당 상권의 유동, 직장, 상주 인구수 각각을 점포수로 나누어 내부 기준으로 구간화하여 '유리/적정/불리' 등급을 반환
  *     parameters:
- *       - $ref: '#/components/parameters/GuQuery'
- *       - $ref: '#/components/parameters/DongQuery'
- *       - $ref: '#/components/parameters/NameQuery'
+ *       - in: query
+ *         name: gu
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "마포구"
+ *         description: "자치구명 (예: 마포구)"
+ *       - in: query
+ *         name: dong
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "도화동"
+ *         description: "행정동명 (예: 도화동)"
+ *       - in: query
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "마포역2번출구"
+ *         description: "상권명(TRDAR_CD_NM)"
  *     responses:
  *       200:
- *         description: 성공
+ *         description: "성공"
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Grade_Pop'
+ *               type: object
+ *               properties:
+ *                 float:
+ *                   type: string
+ *                   enum: ["유리", "적정", "불리", "측정불가"]
+ *                 company:
+ *                   type: string
+ *                   enum: ["유리", "적정", "불리", "측정불가"]
+ *                 resident:
+ *                   type: string
+ *                   enum: ["유리", "적정", "불리", "측정불가"]
+ *               required: ["float", "company", "resident"]
  *             examples: 
  *               sample:
  *                 value:
  *                   float: "유리"
  *                   company: "적정"
  *                   resident: "불리"
- *                                  
  *       400:
- *         $ref: '#/components/responses/BadRequest'
+ *         description: "잘못된 요청(필수 파라미터 누락/형식 오류)"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "BAD_REQUEST"
+ *                 error:
+ *                   type: string
+ *                   example: "gu|dong|name required"
+ *               required: ["code", "error"]
  *       404:
- *         $ref: '#/components/responses/NotFound'
+ *         description: "요청한 리소스를 찾을 수 없음(예: 상권명 미존재)"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "NOT_FOUND"
+ *                 error:
+ *                   type: string
+ *                   example: "No matching commercial district"
+ *               required: ["code", "error"]
  *       422:
- *         $ref: '#/components/responses/UnprocessableEntity'
+ *         description: "파라미터는 문법적으로 맞지만 의미적으로 처리 불가"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "UNPROCESSABLE_ENTITY"
+ *                 error:
+ *                   type: string
+ *                   example: "Invalid gu/dong/name combination"
+ *               required: ["code", "error"]
  *       500:
- *         $ref: '#/components/responses/InternalError'
+ *         description: "서버 내부 오류"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "INTERNAL_ERROR"
+ *                 error:
+ *                   type: string
+ *                   example: "등급 판정 중 서버 오류가 발생했습니다."
+ *               required: ["code", "error"]
  */
 router.get('/popPerStore', getPopPerStore);
 
@@ -50,24 +126,52 @@ router.get('/popPerStore', getPopPerStore);
  * @openapi
  * /common/incomePerPop:
  *   get:
- *     tags:
- *       - Common
+ *     tags: [Common]
  *     operationId: getIncomePerPop
  *     summary: 인구당 매출 기반 '유리/적정/불리' 등급
  *     description: |
  *       자치구(gu), 행정동(dong), 상권명(name)을 받아 인구당 추정매출을 지역 평균과 비교한 상대지표로 등급을 반환
  *       계산 방식: 해당 상권의 점포 추정매출을 유동, 직장, 상주인구 수 각각으로 나눈 값을 내부 기준으로 구간화하여 '유리/적정/불리' 등급을 반환합니다.
  *     parameters:
- *       - $ref: '#/components/parameters/GuQuery'
- *       - $ref: '#/components/parameters/DongQuery'
- *       - $ref: '#/components/parameters/NameQuery'
+ *       - in: query
+ *         name: gu
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "마포구"
+ *         description: "자치구명 (예: 마포구)"
+ *       - in: query
+ *         name: dong
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "도화동"
+ *         description: "행정동명 (예: 도화동)"
+ *       - in: query
+ *         name: name
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "마포역2번출구"
+ *         description: "상권명(TRDAR_CD_NM)"
  *     responses:
  *       200:
- *         description: 성공
+ *         description: "성공"
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Grade_Pop'
+ *               type: object
+ *               properties:
+ *                 float:
+ *                   type: string
+ *                   enum: ["유리", "적정", "불리", "측정불가"]
+ *                 company:
+ *                   type: string
+ *                   enum: ["유리", "적정", "불리", "측정불가"]
+ *                 resident:
+ *                   type: string
+ *                   enum: ["유리", "적정", "불리", "측정불가"]
+ *               required: ["float", "company", "resident"]
  *             examples:
  *               sample:
  *                 value:
@@ -75,48 +179,154 @@ router.get('/popPerStore', getPopPerStore);
  *                   company: "적정"
  *                   resident: "불리"
  *       400:
- *         $ref: '#/components/responses/BadRequest'
+ *         description: "잘못된 요청(필수 파라미터 누락/형식 오류)"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "BAD_REQUEST"
+ *                 error:
+ *                   type: string
+ *                   example: "gu|dong|name required"
+ *               required: ["code", "error"]
  *       404:
- *         $ref: '#/components/responses/NotFound'
+ *         description: "요청한 리소스를 찾을 수 없음(예: 상권명 미존재)"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "NOT_FOUND"
+ *                 error:
+ *                   type: string
+ *                   example: "No matching commercial district"
+ *               required: ["code", "error"]
  *       422:
- *         $ref: '#/components/responses/UnprocessableEntity'
+ *         description: "파라미터는 문법적으로 맞지만 의미적으로 처리 불가"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "UNPROCESSABLE_ENTITY"
+ *                 error:
+ *                   type: string
+ *                   example: "Invalid gu/dong/name combination"
+ *               required: ["code", "error"]
  *       500:
- *         $ref: '#/components/responses/InternalError'
+ *         description: "서버 내부 오류"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "INTERNAL_ERROR"
+ *                 error:
+ *                   type: string
+ *                   example: "등급 판정 중 서버 오류가 발생했습니다."
+ *               required: ["code", "error"]
  */
 router.get('/incomePerPop', getIncomePerPop);
 
 /**
  * @openapi
- * /common/IncomePerRentService:
+ * /common/incomePerRentService:
  *   get:
- *     tags:
- *       - Common
+ *     tags: [Common]
  *     operationId: getIncomePerRentService
  *     summary: 해당 자치구의 임대료 대비 추정매출
  *     description: |
  *       자치구(gu)를 받아 임대료당 추정매출을 지역 평균과 비교한 상대지표로 등급을 반환
  *       계산 방식: (해당 자치구의 추정매출/해당 자치구의 평균임대료)를 (모든 자치구의 추정매출/모든 자치구의 평균임대료)로 나눈 값을 내부 기준으로 구간화하여 '유리/적정/불리' 등급을 반환합니다.
  *     parameters:
- *       - $ref: '#/components/parameters/GuQuery'
+ *       - in: query
+ *         name: gu
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "마포구"
+ *         description: "자치구명 (예: 마포구)"
  *     responses:
  *       200:
- *         description: 성공
+ *         description: "성공"
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Grade_Income'
+ *               type: object
+ *               properties:
+ *                 income:
+ *                   type: string
+ *                   enum: ["유리", "적정", "불리", "측정불가"]
+ *               required: ["income"]
  *             examples:
  *               sample:
  *                 value:
  *                   income: "유리"
  *       400:
- *         $ref: '#/components/responses/BadRequest'
+ *         description: "잘못된 요청(필수 파라미터 누락/형식 오류)"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "BAD_REQUEST"
+ *                 error:
+ *                   type: string
+ *                   example: "gu required"
+ *               required: ["code", "error"]
  *       404:
- *         $ref: '#/components/responses/NotFound'
+ *         description: "요청한 리소스를 찾을 수 없음"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "NOT_FOUND"
+ *                 error:
+ *                   type: string
+ *                   example: "No matching district"
+ *               required: ["code", "error"]
  *       422:
- *         $ref: '#/components/responses/UnprocessableEntity'
+ *         description: "파라미터는 문법적으로 맞지만 의미적으로 처리 불가"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "UNPROCESSABLE_ENTITY"
+ *                 error:
+ *                   type: string
+ *                   example: "Invalid gu"
+ *               required: ["code", "error"]
  *       500:
- *         $ref: '#/components/responses/InternalError'
+ *         description: "서버 내부 오류"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   example: "INTERNAL_ERROR"
+ *                 error:
+ *                   type: string
+ *                   example: "등급 판정 중 서버 오류가 발생했습니다."
+ *               required: ["code", "error"]
  */
 router.get('/incomePerRentService', getIncomePerRentService);
 

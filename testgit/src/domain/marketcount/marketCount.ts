@@ -76,7 +76,7 @@ export async function getMarketCountCommercial() : Promise<Map<string,Map<string
         saveJson("MarketCountCommercial",mapToJson(marketMap));
     }
     else{
-        marketMap = jsonToMap(loadJson("MarketCountCommercial"));
+        marketMap = await jsonToMap(loadJson("MarketCountCommercial"));
     }
     return marketMap;
 }

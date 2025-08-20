@@ -114,3 +114,10 @@ export async function getCompanyPop_hinterland() : Promise<Map<string,Map<string
     }
     return populationMap;
 }
+
+export function t2() : Map<string,Map<string,number>>{
+
+    const populationMap:Map<string,Map<string,number>> = jsonToMap(loadJson("CompanyPopulationCommercial"));
+    
+    return populationMap;
+}

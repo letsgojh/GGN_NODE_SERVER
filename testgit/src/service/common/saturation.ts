@@ -21,9 +21,9 @@ import {
     getSeoulEstimateIncome_hinterland,
 } from '../../domain/calledData.ts'
 import { getFloatingPop_commercial } from '../../domain/population/floatingPop.ts';
-import { getCompanyPop_commercial } from '../../domain/population/companyPop.ts';
-import { getResidentPop_commercial } from '../../domain/population/residentPop.ts';
-import { getMarketCountCommercial } from '../../domain/marketcount/marketCount.ts';
+import { getCompanyPop_commercial} from '../../domain/population/companyPop.ts';
+import { getResidentPop_commercial} from '../../domain/population/residentPop.ts';
+import { getMarketCountCommercial} from '../../domain/marketcount/marketCount.ts';
 //하나의 상권에 대해 로직구현
 
 //1. 인구수 포화도(점포 하나가 담당하는 평균 인구 수) 계산
@@ -35,15 +35,13 @@ import { getMarketCountCommercial } from '../../domain/marketcount/marketCount.t
 // 상권 하나의 총 총 상주인구(상권) / 점포수(상권하나) 반환
 //name : 상권 하나의 이름
 
-export async function getSaturation(gu: string, dong: string, name : string, indsutry?: string):Promise<getTotalPopPerStore_Param>{
+export async function getSaturation(gu: string, dong: string, name : string):Promise<getTotalPopPerStore_Param>{
     const districtName = `${gu} ${dong}`;
-    console.log(districtName);
     const commercialName = name;
     const seoulFloatingPopulation = await getFloatingPop_commercial();
     const seoulCompanyPopulation = await getCompanyPop_commercial();
     const seoulResidentPopulation = await getResidentPop_commercial();
     const storeCount =(await getMarketCountCommercial()).get(districtName);
-    let totalStore_Dong = 0;
     const oneIncome_commercial = storeCount?.get(commercialName)?.get("total");
     const totalCompanyPop = seoulCompanyPopulation.get(districtName)?.get("total");
     const totalResidentPop = seoulResidentPopulation.get(districtName)?.get("total");
@@ -51,7 +49,7 @@ export async function getSaturation(gu: string, dong: string, name : string, ind
     const oneCompanyPop =seoulCompanyPopulation.get(districtName)?.get(commercialName)||0;
     const oneResidentPop=seoulResidentPopulation.get(districtName)?.get(commercialName)||0;
     const oneFloatingPop =seoulFloatingPopulation.get(districtName)?.get(commercialName)||0;
-
+    let totalStore_Dong =0;
     for(let commercial of storeCount!.keys()){
         totalStore_Dong += (storeCount!.get(commercial)?.get("total") || 0);
     }

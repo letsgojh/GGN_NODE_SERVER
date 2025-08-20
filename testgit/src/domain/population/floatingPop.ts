@@ -115,3 +115,10 @@ export async function getFloatingPop_hinterland() : Promise<Map<string,Map<strin
     }
     return populationMap;
 }
+
+export function t1() : Map<string,Map<string,number>>{
+
+    const populationMap:Map<string,Map<string,number>> = jsonToMap(loadJson("FloatingPopulationCommercial"));
+    
+    return populationMap;
+}

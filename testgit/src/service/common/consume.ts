@@ -8,12 +8,12 @@ import {
 
 export async function getConsume(auto : string, admin : string, name : string) : Promise<getTotalPopPerStore_Param>{
     const districtName = `${auto} ${admin}`;
+    console.log("districtname:::::", districtName);
     const commercialName = name;
     const seoulFloatingPopulation = await getFloatingPop_commercial();
     const seoulCompanyPopulation = await getCompanyPop_commercial();
     const seoulResidentPopulation = await getResidentPop_commercial();
     const predictedIncome =(await getEstimatedIncomeCommercial()).get(districtName);
-    console.log(predictedIncome);
     let totalIncome_Dong = 0;
     const oneIncome_commercial = predictedIncome?.get(commercialName)?.get("total");
     const totalCompanyPop = seoulCompanyPopulation.get(districtName)?.get("total");

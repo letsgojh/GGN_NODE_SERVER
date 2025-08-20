@@ -19,8 +19,10 @@ async function judgeByCondition(number : number) : Promise<string>{
         return "유리"
     }else if(number >= 1.1 && number <= 1.3 ){
         return "적정"
-    }else{
+    }else if(number<1.1){
         return "불리"
+    }else{
+        return "측정불가"
     }
 }
 
@@ -29,8 +31,10 @@ async function judgeByCondition_Income(number : number) : Promise<string>{
         return "유리"
     }else if(number >= 0.75 && number <= 1.34 ){
         return "적정"
-    }else{
+    }else if(number<0.75){
         return "불리"
+    }else{
+        return "측정불가";
     }
 }
 

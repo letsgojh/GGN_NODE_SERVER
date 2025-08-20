@@ -15,7 +15,7 @@ const options: Options = {
             }
         ]
     },
-    apis: ["./src/routes/*.ts"] // TypeScript 파일을 읽도록 경로 수정
+    apis: ["./src/routes/*.ts","./src/docs/*.ts"] // TypeScript 파일을 읽도록 경로 수정
 };
 
 const specs = swaggerJsDoc(options);
