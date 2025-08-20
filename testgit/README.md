@@ -264,6 +264,15 @@ src/
 
 <br>
 
+**0. 저장소 클론**
+
+```
+  git clone https://github.com/letsgojh/GGN_NODE_SERVER.git main
+  cd testgit
+```
+
+
+
 **1. .env 변수 설정**
 
 client와 server 그리고 node-server 디렉토리에 각각 .env파일을 생성 후 아래 변수를 설정합니다.
