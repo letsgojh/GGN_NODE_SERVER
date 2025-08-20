@@ -5,7 +5,7 @@
 
 <br>
 
-# 팀원 구성
+## 팀원 구성
 
 <div align="center">
 
@@ -43,12 +43,12 @@
 ## 시스템 아키텍처
 
 <br>
-![System Architecture](fianl_submit.drawio.png)
+<img width="1740" height="552" alt="image" src="https://github.com/user-attachments/assets/2e3eb50d-0915-4906-b127-88bd9984cb17" />
 
 <br>
 
 
-## 프로젝트 구조 -> 디렉토리 구조
+## 프로젝트 구조
 
 
 <br>
@@ -56,6 +56,136 @@
 
 <br>
 
+
+## 데이터베이스 스키마
+
+### CompanyPopulationCommercial
+```javascript
+{
+  __type : string,
+  value : [
+    [districtName:string , population:number]
+    ["자하문터널", 184945247]
+  ]
+}
+```
+
+### CompanyPopulationHinterland
+```javascript
+{
+  __type : string,
+  value : [
+    [districtName:string , population:number]
+    ["자하문터널", 184945247]
+  ]
+}
+```
+
+### FloatingPopulationCommercial.json
+```javascript
+{
+  __type : string,
+  value : [
+    [districtName:string , population:number]
+    ["자하문터널", 184945247]
+  ]
+}
+```
+### FloatingPopulationHinterland.json
+```javascript
+{
+  __type : string,
+  value : [
+    [districtName:string , population:number]
+    ["자하문터널", 184945247]
+  ]
+}
+```
+### ResidentPopulationCommercial.json
+```javascript
+{
+  __type : string,
+  value : [
+    [districtName:string , population:number]
+    ["자하문터널", 184945247]
+  ]
+}
+```
+### ResidentPopulationHinterland.json
+```javascript
+{
+  __type : string,
+  value : [
+    [districtName:string , population:number]
+    ["자하문터널", 184945247]
+  ]
+}
+```
+### MarketCountCommercial.json
+```javascript
+{
+  __type : string,
+  value : [
+    districtName: string ,
+    list : [
+    [serviceName : string, marketCount : number]
+    [외식업, 234801]
+  ]
+}
+```
+### MarketCountHinterland.json
+```javascript
+{
+  __type : string,
+  value : [
+    hinterlandName: string,
+    list : [
+    [serviceName : string, marketCount : number]
+    [외식업, 234801]
+  ]
+}
+```
+### EstimatedIncomeCommercial.json
+```javascript
+{
+  __type : string,
+  value : [
+    districtName: [
+    list : [
+    [serviceName : string, estimatedIncome : number]
+    [외식업, 234801]
+  ]
+}
+```
+
+### EstimatedIncomeHinterland.json
+```javascript
+{
+  __type : string,
+  value : [
+    hinterlandName: string ,
+    list : [
+    [serviceName : string, estimatedIncome : number]
+    [외식업, 234801]
+  ]
+}
+```
+
+### GuRent.json
+```javascript
+{
+  __type : string,
+  rentPerPyeong : number
+}
+```
+
+### GuEstimatedIncome.json
+```javascript
+{
+  __type : string,
+  estimatedIncomeAverage : number
+}
+```
 
 ## 기여 가이드
 
@@ -69,36 +199,39 @@
   - `test`: 테스트 코드 관련 작업  
   - `chore`: 빌드 업무, 패키지 매니저 설정 등
 
-- 예시 :
-
+- **예시** :
+  
+```
     feat: 유저 로그인 API 추가
-    fix: 회원가입 시 이메일 중복 체크 오류 수정
-    docs: README 설치 방법 업데이트
 
----
+    fix: 회원가입 시 이메일 중복 체크 오류 수정
+
+    docs: README 설치 방법 업데이트
+```
+
 ### Branch 전략
 - **main**: 배포 가능한 안정적인 코드만 머지  
 - **develop**: 개발 브랜치, 기능 단위 브랜치들을 여기서 통합  
 - **feature/**: 새로운 기능 개발 (`feature/login`, `feature/chat`)  
 - **fix/**: 버그 수정 (`fix/login-error`)
 
-- 예시 :
-└── develop
-├── feature/login
-├── feature/chat
-└── fix/auth-bug
+- **예시** :
 
---- 
+```
+src/
+├── devlop/        
+│   ├── feature/login           
+│   └── feature/chat<br>   
+
+``` 
 
 ### Pull Request 규칙
 1. PR 제목은 **작업 내용 요약** (예: `feat: 채팅 UI 추가`)  
 2. 최소 **1명 이상 리뷰 승인** 후 머지
 
 
-<br>
 
 <br>
-
 
 ## 기술 스택
 - **Frontend** : React(Vite)
@@ -108,22 +241,12 @@
 - **Docs** : Swagger, JSDoc
 - **Collaboration** : Discord, Notion, Github, Git
 
-
-<br>
-
-<br>
-
-
-## 역할 분담
-
-
 <br>
 
 <br>
 
 
 ## 개발 시작 날짜
-
 
 - 시작 날짜 : 2025-08-03 ~
 
@@ -133,7 +256,11 @@
 
 
 ## 설치 및 실행방법
+<br>
 
+### 필수 요구사항
+- **Node.js**: v22.0.0 이상
+- **pnpm**: 10.0.0 이상 (권장) 또는 npm
 
 <br>
 
@@ -141,18 +268,18 @@
 
 client와 server 그리고 node-server 디렉토리에 각각 .env파일을 생성 후 아래 변수를 설정합니다.
 
-client/.env
+**client/.env**
 
     OPENAI_API_KEY=OPEN AI Platform에서 발급받은 API KEY
     VITE_AGENTICA_WS_URL=ws://localhost:3000/chat
 
 
-server/.env
+**server/.env**
 
     OPENAI_API_KEY=OPEN AI Platform에서발급받은 API KEY
     PORT=agentica 서버를 실행 포트번호
 
-node-server/.env
+**node-server/.env**
 
     AUTHENTICATION_KEY=서울시 열린광장에서 발급받은 API KEY
     PORT=node 서버를 실행 포트번호
@@ -180,10 +307,13 @@ node-server/.env
 
 **5. chatbot 사용**
 
+<br>
 
 **브라우저에서 다음 주소로 접속 :**
 
-  http://localhost:5173 #또는 client 실행 시 지정한 포트
+```
+  http://localhost:5173 //또는 client 실행 시 지정한 포트
+```
     
 - 이후 챗봇에게 양식에 맞는 요청을 입력하면 됩니다.
 - ⚠️ 질문이 지정된 form과 어긋날 경우 응답이 거절될 수 있습니다.
@@ -194,9 +324,38 @@ node-server/.env
 <br>
 
 ## 참고 프로젝트
-- [Agentica](https://github.com/wrtnlabs/agentica)
+
+이 프로젝트는 다음과 같은 오픈소스 라이브러리를 사용합니다.
+
+- **Express**: Node.js를 위한 빠르고 개방적인 웹 프레임워크입니다.
+
+- **dotenv**: .env 파일에서 환경 변수를 로드하는 모듈입니다.
+
+- **swagger-jsdoc**: JSDoc 주석을 기반으로 Swagger 문서를 생성합니다.
+
+- **swagger-ui-express**: Express 애플리케이션에서 Swagger UI를 제공합니다.
+
+- **TypeScript**: JavaScript의 상위 집합으로 정적 유형을 추가합니다.
+
+- **[Agentica](https://github.com/wrtnlabs/agentica)** : 
     오픈소스 LLM 에이전트 프레임워크.
     본 프로젝트는 Agentica의 **LLM 함수 호출 설계 및 클라이언트-서버 구조**를 참고하여 구현되었습니다.
+
+<br>
+
+## 라이센스
+
+이 프로젝트에서 사용하는 라이브러리의 라이센스는 다음과 같습니다.
+
+- **Express**: MIT License
+
+- **dotenv**: BSD-2-Clause License
+
+- **swagger-jsdoc**: Apache 2.0 License
+
+- **swagger-ui-express**: MIT License
+
+- **TypeScript** : Apache 2.0 License
 
 <br>
 
@@ -204,4 +363,29 @@ node-server/.env
 
 -> 사진 넣기
 
+
+<br>
+
+
+## 문제 해결
+
+<br>
+
+### 포트 충돌 시
+
+
+- .env 파일에서 포트 변경
+
+```
+
+  PORT=3005
+
+```
+
+
 ## 비즈니스 로직 
+
+## 문의처
+![Github](https://img.shields.io/badge/Github-181717.svg?&style=for-the-badge&logo=GitHub&logoColor=white)
+![Gmail](https://img.shields.io/badge/Gmail-EA4335.svg?&style=for-the-badge&logo=Gmail&logoColor=white)
+![Naver](https://img.shields.io/badge/Naver-03C75A.svg?&style=for-the-badge&logo=Naver&logoColor=white)
