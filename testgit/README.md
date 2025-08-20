@@ -11,10 +11,8 @@
 
 | **박재민** | **유재환** | **이상윤** | **이제원** | **차기원** | **전우진** |
 | :------: |  :------: | :------: | :------: | :------: | :------: |
-| [<img src="https://avatars.githubusercontent.com/u/104808174?v=4" height=150 width=150> <br/> @JMespoir](https://github.com/JMespoir) | [<img src="https://avatars.githubusercontent.com/u/138412939?v=4" height=150 width=150> <br/> @letsgojh](https://github.com/letsgojh) |  | [<img src="https://avatars.githubusercontent.com/u/105234406?v=4" height=150 width=150> <br/> @cozymob](https://github.com/cozymob) |[<img src="https://avatars.githubusercontent.com/u/189634852?v=4" height=150 width=150> <br/> @cha9572](https://github.com/journey-ji) |
-
+| [<img src="https://avatars.githubusercontent.com/u/104808174?v=4" height=150 width=150> <br/> @JMespoir](https://github.com/JMespoir) | [<img src="https://avatars.githubusercontent.com/u/138412939?v=4" height=150 width=150> <br/> @letsgojh](https://github.com/letsgojh) |[<img src="https://avatars.githubusercontent.com/u/97370661?v=4" height=150 width=150> <br/> @dltkddbs7979](https://github.com/dltkddbs7979)  | [<img src="https://avatars.githubusercontent.com/u/105234406?v=4" height=150 width=150> <br/> @cozymob](https://github.com/cozymob) |[<img src="https://avatars.githubusercontent.com/u/189634852?v=4" height=150 width=150> <br/> @cha9572](https://github.com/journey-ji) | [<img src="https://avatars.githubusercontent.com/u/219519048?v=4" height=150 width=150> <br/> @Jeonwoojin-1006](https://github.com/Jeonwoojin-1006)
 </div>
-
 <br>
 
 ## 프로젝트 개요
@@ -139,52 +137,56 @@
 
 <br>
 
-1. .env 변수 설정
+**1. .env 변수 설정**
 
 client와 server 그리고 node-server 디렉토리에 각각 .env파일을 생성 후 아래 변수를 설정합니다.
 
 client/.env
+
     OPENAI_API_KEY=OPEN AI Platform에서 발급받은 API KEY
     VITE_AGENTICA_WS_URL=ws://localhost:3000/chat
 
 
 server/.env
+
     OPENAI_API_KEY=OPEN AI Platform에서발급받은 API KEY
     PORT=agentica 서버를 실행 포트번호
 
 node-server/.env
+
     AUTHENTICATION_KEY=서울시 열린광장에서 발급받은 API KEY
     PORT=node 서버를 실행 포트번호
 
 
-2. Agentica client 서버 실행 (프론트)
+**2. Agentica client 서버 실행 (프론트)**
 
     cd client
     pnpm install
     pnpm start
 
-3. Node 백엔드 서버 실행
+**3. Node 백엔드 서버 실행**
 
     cd node-server
     npm install
     npm run build //dist/ 생성
     npm start //지정한 port에서 서버 가동
 
-4. Agentica 서버 실행
+**4. Agentica 서버 실행**
 
     cd agentica-server
     pnpm install
     pnpm build
     pnpm start
 
-5. chatbot 사용
+**5. chatbot 사용**
 
-브라우저에서 다음 주소로 접속 : 
 
-    http://localhost:5173 #또는 client 실행 시 지정한 포트
+**브라우저에서 다음 주소로 접속 :**
+
+  http://localhost:5173 #또는 client 실행 시 지정한 포트
     
-이후 챗봇에게 양식에 맞는 요청을 입력하면 됩니다.
-⚠️ 질문이 지정된 form과 어긋날 경우 응답이 거절될 수 있습니다.
+- 이후 챗봇에게 양식에 맞는 요청을 입력하면 됩니다.
+- ⚠️ 질문이 지정된 form과 어긋날 경우 응답이 거절될 수 있습니다.
 
 <br>
 
