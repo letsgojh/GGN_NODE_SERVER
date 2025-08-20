@@ -370,7 +370,14 @@ client와 server 그리고 node-server 디렉토리에 각각 .env파일을 생�
 
 ## 사용 예시
 
--> 사진 넣기
+- **챗봇 사용전 guide page**
+  
+<img width="1000" height="500" alt="image" src="https://github.com/user-attachments/assets/41744616-5d7f-4511-b306-7d7ecf162447" />
+
+
+- **챗봇에게 상권분석 요청**
+
+<img width="500" height="1000" alt="image" src="https://github.com/user-attachments/assets/5f697b7e-b2df-4c31-a429-37a9acf10e06" />
 
 
 <br>
@@ -391,8 +398,6 @@ client와 server 그리고 node-server 디렉토리에 각각 .env파일을 생�
 
 ```
 
-
-## 비즈니스 로직 
 
 ## 문의처
 ![Github](https://img.shields.io/badge/Github-181717.svg?&style=for-the-badge&logo=GitHub&logoColor=white)
