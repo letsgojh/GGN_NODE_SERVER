@@ -36,6 +36,10 @@ type SummationRow = {
 };
 
 // 소분류 → 대분류 역매핑
+// 한식 -> 외식음식 서비스 역매핑
+
+//{한식 => 외식음식 서비스
+//중식 => 외식음식 서비스} 등의 형태로 저장
 function buildReverseMap(catMap: Record<string, string[]>) {
   const reverse = new Map<string, string>();
   for (const [top, subs] of Object.entries(catMap)) {
@@ -58,16 +62,17 @@ export async function pushSummationMarketCount_commercial(): Promise<SummationRo
     const districtName = r.TRDAR_CD_NM;        // 상권명
     const sub = r.SVC_INDUTY_CD_NM;            // 소분류명
     const top = subToTop.get(sub) ?? "기타";    // 대분류 매핑 실패 시 "기타"
-    const cnt = Number(r.STOR_CO ?? 1);
+    const cnt = Number(r.STOR_CO ?? 1);        //점포수 기록
 
     // 상권 버킷
-    let byTop = acc.get(districtName);
+    let byTop = acc.get(districtName); 
+    //상권이름으로 찾았을때 없다면 : 그냥 넣어주면된다.
     if (!byTop) {
       byTop = new Map<string, number>();
       acc.set(districtName, byTop);
     }
 
-    // 대분류 누적
+    // 상권이름으로 찾았을때 있다면 : 대분류 누적시킨다.
     byTop.set(top, (byTop.get(top) ?? 0) + cnt);
   }
 
